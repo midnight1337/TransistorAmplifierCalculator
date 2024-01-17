@@ -10,6 +10,5 @@ private:
 public:
     Bjt(std::string model, std::string type, int hfe, float vbe);
     ~Bjt() = default;
-
     float vbe();
 };

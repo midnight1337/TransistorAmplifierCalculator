@@ -1,3 +1,4 @@
+#include "../include/manager.h"
 #include "manager.h"
 
 
@@ -6,6 +7,13 @@ void Manager::new_transistor(std::string model, std::string type, int hfe, float
     Transistor* transistor = new Bjt(model, type, hfe, vbe);
     
     m_transistors.push_back(transistor);
+}
+
+void Manager::common_emitter_circuit(std::string transistor_model, int vcc = 9)
+{
+    Transistor* transistor = transistor(model);
+
+    CommonEmitter circuit(transistor, vcc);
 }
 
 Transistor* Manager::transistor(std::string& model)

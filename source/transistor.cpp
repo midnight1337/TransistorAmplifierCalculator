@@ -1,4 +1,4 @@
-#include "transistor.h"
+#include "../include/transistor.h"
 
 Transistor::m_transistor_id = 0;
 

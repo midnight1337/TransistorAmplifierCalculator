@@ -1,5 +1,5 @@
 #include <iostream>
-#include "bjt.h"
+#include "../include/bjt.h"
 
 Bjt::Bjt(std::string model, std::string type, int hfe, float vbe) : m_id(m_transistor_id++)
 {

@@ -1,5 +1,8 @@
 #include <iostream>
 
+#ifndef TRANSISTOR_H
+#define TRANSISTOR_H
+
 
 class Transistor
 {
@@ -12,10 +15,13 @@ class Transistor
         int m_current_gain;
         const int m_id;
 
+        Transistor(std::string model, std::string type, int current_gain);
         std::string model();
         std::string type();
         int current_gain();
         int id();
 
-        virtual ~Transistor() = 0;
+        friend class Manager;
 };
+
+#endif

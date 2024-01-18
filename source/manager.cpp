@@ -1,5 +1,9 @@
 #include "../include/manager.h"
-#include "manager.h"
+
+void Manager::test()
+{
+    std::cout << "test" << std::endl;
+}
 
 
 void Manager::new_transistor(std::string model, std::string type, int hfe, float vbe)
@@ -9,18 +13,21 @@ void Manager::new_transistor(std::string model, std::string type, int hfe, float
     m_transistors.push_back(transistor);
 }
 
-void Manager::common_emitter_circuit(std::string transistor_model, int vcc = 9)
+void Manager::common_emitter_circuit(std::string transistor_model, int vcc)
 {
-    Transistor* transistor = transistor(model);
+    Transistor* transistor = this->transistor(transistor_model);
 
     CommonEmitter circuit(transistor, vcc);
 }
 
 Transistor* Manager::transistor(std::string& model)
 {
-    for (int i = 0; i < m_transistors.size(); i++)
+    for (Transistor* transistor : m_transistors)
     {
-        if (m_transistors[i]->model() == model) { return m_transistors[i]; }
+        if (transistor->model() == model) 
+        { 
+            return transistor; 
+        }
     }
 
     // If the loop completes without finding the transistor, throw an exception

@@ -1,4 +1,5 @@
-#include "common_emitter.h"
+#include "../include/common_emitter.h"
+
 
 CommonEmitter::CommonEmitter(Transistor *transistor, int vcc)
 {

@@ -1,5 +1,8 @@
 #include <iostream>
-#incliude "circuit.h"
+#include "circuit.h"
+
+#ifndef COMMON_EMITTER_H
+#define COMMON_EMITTER_H
 
 
 class CommonEmitter : public Circuit
@@ -23,3 +26,5 @@ class CommonEmitter : public Circuit
         int calculate_voltage_gain();
         void determine_q_point();
 };
+
+#endif

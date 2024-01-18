@@ -1,6 +1,9 @@
 #include <iostream>
 #include "transistor.h"
 
+#ifndef CIRCUIT_H
+#define CIRCUIT_H
+
 
 class Circuit
 {
@@ -11,3 +14,5 @@ class Circuit
     public:
         virtual ~Circuit() = 0;
 };
+
+#endif

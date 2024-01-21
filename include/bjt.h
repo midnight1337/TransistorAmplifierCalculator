@@ -7,12 +7,12 @@
 
 class Bjt : public Transistor
 {
-    private:
-        float m_vbe;
+private:
+    float m_vbe;
 
-    public:
-        Bjt(std::string model, std::string type, int hfe, float vbe);
-        float vbe();
+public:
+    Bjt(const std::string& model, const std::string& type, int hfe, float vbe);
+    void transistor_info() override;
 };
 
 #endif

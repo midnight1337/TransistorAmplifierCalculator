@@ -34,6 +34,8 @@ void Manager::common_emitter_circuit(const std::string& transistor_model, int vc
     Transistor* transistor = get_transistor(transistor_model);
 
     CommonEmitter circuit(transistor, vcc, rc, re, rbc, rbe);
+
+    circuit.calculate();
 }
 
 Transistor* Manager::get_transistor(const std::string& model)

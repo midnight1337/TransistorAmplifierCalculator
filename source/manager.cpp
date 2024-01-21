@@ -1,9 +1,9 @@
 #include "../include/manager.h"
 
 
-void Manager::new_transistor(const std::string& model, const std::string& type, int hfe, float vbe)
+void Manager::new_bjt_transistor(const std::string& model, const std::string& type, int hfe, float vbe)
 {
-    Transistor* transistor = new Bjt(model, type, hfe, vbe);
+    Bjt* transistor = new Bjt(model, type, hfe, vbe);
     m_transistors.push_back(transistor);
 }
 
@@ -26,16 +26,19 @@ void Manager::show_transistors(const std::string& model)
     }
 
     // If the loop completes without finding the transistor, throw an exception
-    throw std::runtime_error("Transistor not found with model: " + model);
+    throw std::runtime_error("Transistor model not found: " + model);
 }
 
-void Manager::common_emitter_circuit(const std::string& transistor_model, int vcc, int rc, int re, int rbc, int rbe)
+void Manager::breadboard_common_emitter_circuit(const std::string& transistor_model, int vcc, int rc, int re, int rbc, int rbe)
 {
     Transistor* transistor = get_transistor(transistor_model);
 
-    CommonEmitter circuit(transistor, vcc, rc, re, rbc, rbe);
+    m_common_emitter =  CommonEmitter(transistor, vcc, rc, re, rbc, rbe);
+}
 
-    circuit.calculate();
+void Manager::calculate_common_emitter_circuit()
+{
+    m_common_emitter.calculate();
 }
 
 Transistor* Manager::get_transistor(const std::string& model)
@@ -49,5 +52,5 @@ Transistor* Manager::get_transistor(const std::string& model)
     }
 
     // If the loop completes without finding the transistor, throw an exception
-    throw std::runtime_error("Transistor not found with model: " + model);
+    throw std::runtime_error("Transistor model not found: " + model);
 }

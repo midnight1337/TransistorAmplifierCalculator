@@ -18,6 +18,7 @@ protected:
 
 public:
     std::string model();
+    int current_gain();
     virtual void transistor_info() = 0;
 };
 

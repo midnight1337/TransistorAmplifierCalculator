@@ -85,6 +85,12 @@ build CMakeFiles/TransistorAmplifierCalculator.dir/source/common_emitter.cpp.o: 
   OBJECT_DIR = CMakeFiles/TransistorAmplifierCalculator.dir
   OBJECT_FILE_DIR = CMakeFiles/TransistorAmplifierCalculator.dir/source
 
+build CMakeFiles/TransistorAmplifierCalculator.dir/source/resistor.cpp.o: CXX_COMPILER__TransistorAmplifierCalculator_unscanned_Debug /Users/kamil/Desktop/TransistorAmplifierCalculator/source/resistor.cpp || cmake_object_order_depends_target_TransistorAmplifierCalculator
+  DEP_FILE = CMakeFiles/TransistorAmplifierCalculator.dir/source/resistor.cpp.o.d
+  FLAGS = -g -std=gnu++17 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk -mmacosx-version-min=10.15 -fcolor-diagnostics
+  OBJECT_DIR = CMakeFiles/TransistorAmplifierCalculator.dir
+  OBJECT_FILE_DIR = CMakeFiles/TransistorAmplifierCalculator.dir/source
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target TransistorAmplifierCalculator
@@ -93,7 +99,7 @@ build CMakeFiles/TransistorAmplifierCalculator.dir/source/common_emitter.cpp.o: 
 #############################################
 # Link the executable TransistorAmplifierCalculator
 
-build TransistorAmplifierCalculator: CXX_EXECUTABLE_LINKER__TransistorAmplifierCalculator_Debug CMakeFiles/TransistorAmplifierCalculator.dir/source/main.cpp.o CMakeFiles/TransistorAmplifierCalculator.dir/source/manager.cpp.o CMakeFiles/TransistorAmplifierCalculator.dir/source/transistor.cpp.o CMakeFiles/TransistorAmplifierCalculator.dir/source/bjt.cpp.o CMakeFiles/TransistorAmplifierCalculator.dir/source/circuit.cpp.o CMakeFiles/TransistorAmplifierCalculator.dir/source/common_emitter.cpp.o
+build TransistorAmplifierCalculator: CXX_EXECUTABLE_LINKER__TransistorAmplifierCalculator_Debug CMakeFiles/TransistorAmplifierCalculator.dir/source/main.cpp.o CMakeFiles/TransistorAmplifierCalculator.dir/source/manager.cpp.o CMakeFiles/TransistorAmplifierCalculator.dir/source/transistor.cpp.o CMakeFiles/TransistorAmplifierCalculator.dir/source/bjt.cpp.o CMakeFiles/TransistorAmplifierCalculator.dir/source/circuit.cpp.o CMakeFiles/TransistorAmplifierCalculator.dir/source/common_emitter.cpp.o CMakeFiles/TransistorAmplifierCalculator.dir/source/resistor.cpp.o
   FLAGS = -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk -mmacosx-version-min=10.15
   OBJECT_DIR = CMakeFiles/TransistorAmplifierCalculator.dir
   POST_BUILD = :

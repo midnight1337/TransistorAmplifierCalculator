@@ -1,5 +1,6 @@
 #include "../include/circuit.h"
 
+Circuit::Circuit() {}
 
 Circuit::Circuit(Transistor* transistor, int vcc, int rc, int re)
 {

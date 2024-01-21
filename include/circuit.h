@@ -6,13 +6,16 @@
 class Circuit
 {
 protected:
-    Circuit(Transistor* transistor, int vcc, int rc, int re);
     Transistor* m_transistor;
-    int m_vcc;
-    int m_rc;
-    int m_re;
+    float m_vcc;
+    float m_rc;
+    float m_re;
+    float m_re_ac;
+    std::string q_point;
 
 public:
+    Circuit();
+    Circuit(Transistor* transistor, int vcc, int rc, int re);
     virtual void calculate() = 0;
 };
 

@@ -32,7 +32,7 @@ m_gm - Transconductance
 
 m_vt - Thermal voltage
 
-m_rpi - Input Impedance of Transistor
+m_r_pi - Input Impedance of Transistor
 
 m_z_in - Input Impedance of Circuit
 

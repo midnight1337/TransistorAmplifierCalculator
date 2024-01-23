@@ -1,7 +1,7 @@
 #include <iostream>
 #include "../include/bjt.h"
 
-Bjt::Bjt(const std::string& model, const std::string& type, int hfe, float vbe) : Transistor(model, type, hfe), m_vbe(vbe), m_vt(25) {}
+Bjt::Bjt(const std::string& model, const std::string& type, int hfe, float vbe) : Transistor(model, type, hfe), m_vbe(vbe), m_vt(0.025) {}
 
 void Bjt::transistor_parameters()
 {
@@ -12,12 +12,12 @@ void Bjt::transistor_parameters()
     std::cout << "Vbe: " << m_vbe << std::endl;
 }
 
-float Bjt::vbe()
+float Bjt::vbe() const
 {
     return m_vbe;
 }
 
-int Bjt::vt()
+float Bjt::vt() const
 {
     return m_vt;
 }

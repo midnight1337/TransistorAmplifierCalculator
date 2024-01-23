@@ -21,10 +21,11 @@ private:
     void calculate_collector_current() override;
     void calculate_emitter_voltage() override;
     void calculate_emitter_current() override;
+    void calculate_saturation_current() override;
     void calculate_bias_voltage() override;
-    void calculate_internal_emitter_resistance() override;
-    void determine_q_point() override;
+    void calculate_transistor_internal_emitter_resistance() override;
     void calculate_transistor_impedance() override;
+    void calculate_transistor_transconductance() override;
     void calculate_input_impedance() override;
     void calculate_output_impedance() override;
     void calculate_voltage_gain() override;
@@ -32,9 +33,9 @@ private:
 public:
     CommonEmitter(Transistor *transistor, float vcc, float rc, float re, float rbc, float rbe);
     ~CommonEmitter() override = default;
-    void calculate() override;
-    void circuit_parameters() override;
-    void round_values() override;
+    void calculate_data() override;
+    void circuit_data() override;
+    void convert_data() override;
 };
 
 #endif

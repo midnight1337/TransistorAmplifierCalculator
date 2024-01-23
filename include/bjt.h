@@ -9,14 +9,14 @@ class Bjt : public Transistor
 {
 private:
     const float m_vbe;
-    const int m_vt;
+    const float m_vt;
 
 public:
     Bjt(const std::string& model, const std::string& type, int hfe, float vbe);
     ~Bjt() override = default;
     void transistor_parameters() override;
-    float vbe();
-    int vt();
+    float vbe() const;
+    float vt() const;
 };
 
 #endif

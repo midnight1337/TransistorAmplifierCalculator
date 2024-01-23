@@ -2,7 +2,7 @@
 
 ### Abbreviations
 ```
-m_vcc - Common Collector Voltage (simply voltage supply)
+m_vcc - Common Collector Voltage (voltage supply)
 
 m_rc - Collector Resistor
 
@@ -18,15 +18,17 @@ m_vb - Base voltage
 
 m_ve - Emitter voltage
 
-m_vbe - Base-Emitter Voltage drop (simply Bias voltage)
+m_vbe - Base-Emitter Voltage drop (bias voltage)
 
-m_vce = Collector-Emitter Voltage drop
+m_vce - Collector-Emitter Voltage drop
 
 m_ic - Collector Current
 
 m_ib - Base Current
 
 m_ie - Emitter Current
+
+m_ic_sat - Saturation Current (maximum circuit current)
 
 m_gm - Transconductance
 

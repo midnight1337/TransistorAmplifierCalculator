@@ -33,13 +33,13 @@ void Manager::breadboard_common_emitter_circuit(const std::string& transistor_mo
 
 void Manager::calculate_common_emitter_circuit()
 {
-    m_common_emitter->calculate();
+    m_common_emitter->calculate_data();
 }
 
 void Manager::show_data_from_common_emitter_circuit()
 {
-    m_common_emitter->round_values();
-    m_common_emitter->circuit_parameters();
+    m_common_emitter->convert_data();
+    m_common_emitter->circuit_data();
 }
 
 Transistor* Manager::get_transistor(const std::string& model)

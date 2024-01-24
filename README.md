@@ -2,43 +2,49 @@
 
 ### Abbreviations
 ```
-m_vcc - Common Collector Voltage (voltage supply)
+vcc - Common collector voltage (voltage supply)
 
-m_rc - Collector Resistor
+rc - Collector resistor
 
-m_re - Emitter Resistor
+re - Emitter resistor
 
-m_re_ac - Emitter dynamic internal resistance
+re_ac - Emitter dynamic internal resistance of transistor
 
-m_rl - Load resistor at the Circuit output
+rl - Load resistor at the circuit output
 
-m_vc - Collector Voltage
+vc - Collector voltage
 
-m_vb - Base voltage
+vb - Base voltage
 
-m_ve - Emitter voltage
+ve - Emitter voltage
 
-m_vbe - Base-Emitter Voltage drop (bias voltage)
+vbe - Base-Emitter voltage drop of transistor
 
-m_vce - Collector-Emitter Voltage drop
+vce - Collector-Emitter voltage drop (bias voltage)
 
-m_ic - Collector Current
+ic - Collector current
 
-m_ib - Base Current
+ib - Base current
 
-m_ie - Emitter Current
+ie - Emitter current
 
-m_ic_sat - Saturation Current (maximum circuit current)
+ic_sat - Saturation current (maximum collector current)
 
-m_gm - Transconductance
+gm - Transconductance of transistor
 
-m_vt - Thermal voltage
+vt - Thermal voltage of transistor
 
-m_r_pi - Input Impedance of Transistor
+rpi_ac - Input impedance of transistor
 
-m_z_in - Input Impedance of Circuit
+z_in - Input impedance of circuit
 
-m_z_out - Output Impedance of Circuit
+z_out - Output impedance of circuit
 
-m_av - Voltage Gain
+av_ac - Voltage gain for AC analysis
+
+av_ac_db - Voltage gain for AC analysis given in dB
+
+av_dc - Voltage gain for DC analysis
+
+av_dc_db - Voltage gain for DC analysis given in dB
 ```

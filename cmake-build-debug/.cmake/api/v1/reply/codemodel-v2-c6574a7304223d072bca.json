@@ -9,7 +9,7 @@
 					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
 					"minimumCMakeVersion" : 
 					{
-						"string" : "3.27"
+						"string" : "3.22"
 					},
 					"projectIndex" : 0,
 					"source" : ".",
@@ -39,7 +39,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "TransistorAmplifierCalculator::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-TransistorAmplifierCalculator-Debug-72b7284c1fa7c41601d0.json",
+					"jsonFile" : "target-TransistorAmplifierCalculator-Debug-0ffc9943401b13f0b478.json",
 					"name" : "TransistorAmplifierCalculator",
 					"projectIndex" : 0
 				}
@@ -55,6 +55,6 @@
 	"version" : 
 	{
 		"major" : 2,
-		"minor" : 6
+		"minor" : 3
 	}
 }

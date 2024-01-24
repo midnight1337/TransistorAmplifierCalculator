@@ -3,10 +3,12 @@
 #ifndef CIRCUIT_H
 #define CIRCUIT_H
 
+
 class Circuit
 {
 protected:
     Transistor* m_transistor;
+    // dc analysis
     float m_vcc;
     float m_vc;
     float m_vb;
@@ -17,12 +19,19 @@ protected:
     float m_ie;
     float m_ic_sat;
     float m_gm;
-    float m_r_pi;
+
+    // ac analysis
+    float m_re_ac;
+    float m_rpi_dc;
+    float m_rpi_ac;
+    float m_av_ac;
+    int m_av_ac_db;
+    float m_av_dc;
+    int m_av_dc_db;
+
+    //frequency dependent analysis (above as well?)
     float m_z_in;
     float m_z_out;
-    float m_av;
-    int m_av_db;
-    float m_re_ac;
 
     virtual void calculate_data() = 0;
     virtual void circuit_data() = 0;

@@ -13,7 +13,7 @@ class Manager
 {
 private:
     std::vector<Transistor*> m_transistors;
-    std::vector<Circuit*> m_circuits;
+//    std::vector<Circuit*> m_circuits;
     CommonEmitter* m_common_emitter;
 
 public:

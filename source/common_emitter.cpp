@@ -1,7 +1,7 @@
 #include "../include/common_emitter.h"
 
 
-CommonEmitter::CommonEmitter(Transistor *transistor, float vcc, float rc, float re, float rbc, float rbe) : Circuit(transistor, vcc)
+CommonEmitter::CommonEmitter(Bjt *transistor, float vcc, float rc, float re, float rbc, float rbe) : Circuit(transistor, vcc)
 {
     m_rbc = rbc;
     m_rbe = rbe;
@@ -42,7 +42,7 @@ void CommonEmitter::calculate_base_voltage()
 
 void CommonEmitter::calculate_base_current()
 {
-    float nominator;
+    float nominator = m_vb - m_transistor->vbe();
 
     float resistors[] = {m_rbe, m_rbc};
     int arg_count = sizeof(resistors) / sizeof(float);
@@ -50,11 +50,6 @@ void CommonEmitter::calculate_base_current()
     float equivalent_resistance = Resistor::calculate_in_parallel(arg_count, resistors);
 
     float denominator = (equivalent_resistance + ( static_cast<float>(m_transistor->current_gain() + 1) * m_re ));
-
-    if (Bjt* transistor = dynamic_cast<Bjt*>(m_transistor))
-    {
-        nominator = m_vb - transistor->vbe();
-    }
 
     m_ib = nominator / denominator;
 }
@@ -92,18 +87,12 @@ void CommonEmitter::calculate_bias_voltage()
 void CommonEmitter::calculate_transistor_internal_emitter_resistance()
 {
     /* AC analysis, bypass through Emitter capacitor */
-    if (Bjt* transistor = dynamic_cast<Bjt*>(m_transistor))
-    {
-        m_re_ac = transistor->vt() / m_ie;
-    }
+    m_re_ac = m_transistor->vt() / m_ie;
 }
 
 void CommonEmitter::calculate_transistor_transconductance()
 {
-    if (Bjt* transistor = dynamic_cast<Bjt*>(m_transistor))
-    {
-        m_gm = m_ie / transistor->vt();
-    }
+    m_gm = m_ie / m_transistor->vt();
 }
 
 void CommonEmitter::calculate_transistor_impedance()
@@ -112,7 +101,7 @@ void CommonEmitter::calculate_transistor_impedance()
     m_rpi_dc = (static_cast<float>(m_transistor->current_gain()) * (m_re + m_re_ac));
 
     /* AC analysis, bypass through Emitter capacitor (Two valid formulas) */
-    //    m_rpi_ac = (static_cast<float>(m_transistor->current_gain()) / m_gm );
+//    m_rpi_ac = (static_cast<float>(m_transistor->current_gain()) / m_gm );
     m_rpi_ac = (static_cast<float>(m_transistor->current_gain()) * m_re_ac);
 }
 
@@ -163,9 +152,9 @@ void CommonEmitter::convert_data()
     float* resistances_to_kohms[] = {&m_rbe, &m_rbc, &m_rc, &m_re, &m_z_in, &m_z_out, &m_rpi_ac, &m_rpi_dc};
 
     // Convert given data into two decimal float
-    float* convert_data[] = {&m_vc, &m_vb, &m_ve, &m_ic, &m_ib, &m_ie, &m_ic_sat,
-                             &m_vce, &m_rbe, &m_rbc, &m_rc, &m_re, &m_z_in, &m_z_out,
-                             &m_rpi_ac, &m_rpi_dc, &m_re_ac, &m_av_ac};
+    float* convert_data[] = {&m_vc, &m_vb, &m_ve, &m_ic, &m_ib, &m_ie, &m_ic_sat, &m_vce,
+                             &m_rbe, &m_rbc, &m_rc, &m_re, &m_z_in, &m_z_out, &m_rpi_ac,
+                             &m_rpi_dc, &m_re_ac, &m_av_ac, &m_av_dc, &m_av_ac_db, &m_av_dc_db};
 
     for (float* resistance : resistances_to_kohms)
     {

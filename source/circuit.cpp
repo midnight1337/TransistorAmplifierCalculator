@@ -1,9 +1,5 @@
 #include "../include/circuit.h"
 
-Circuit::Circuit() {}
-
-Circuit::Circuit(Transistor* transistor, float vcc)
-{
-    m_transistor = transistor;
-    m_vcc = vcc;
-}
+/*
+ * All methods are implemented in circuit.h file due to templates limitations
+ */

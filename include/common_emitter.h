@@ -7,13 +7,13 @@
 #define COMMON_EMITTER_H
 
 
-class CommonEmitter : public Circuit
+class CommonEmitter : public Circuit <Bjt>
 {
 private:
-    float m_rbc;
-    float m_rbe;
-    float m_rc;
-    float m_re;
+    float m_rbc{};
+    float m_rbe{};
+    float m_rc{};
+    float m_re{};
 
     void calculate_base_voltage() override;
     void calculate_base_current() override;
@@ -31,7 +31,8 @@ private:
     void calculate_voltage_gain() override;
 
 public:
-    CommonEmitter(Transistor *transistor, float vcc, float rc, float re, float rbc, float rbe);
+    CommonEmitter() = default;
+    CommonEmitter(Bjt *transistor, float vcc, float rc, float re, float rbc, float rbe);
     ~CommonEmitter() override = default;
     void calculate_data() override;
     void circuit_data() override;

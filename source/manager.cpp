@@ -11,10 +11,10 @@ Manager::~Manager()
     {
         delete transistor;
     }
-    for (Circuit* circuit : m_circuits)
-    {
-        delete circuit;
-    }
+//    for (Circuit* circuit : m_circuits)
+//    {
+//        delete circuit;
+//    }
     delete m_common_emitter;
 }
 
@@ -26,7 +26,7 @@ void Manager::new_bjt_transistor(const std::string& model, const std::string& ty
 
 void Manager::breadboard_common_emitter_circuit(const std::string& transistor_model, float vcc, float rc, float re, float rbc, float rbe)
 {
-    Transistor* transistor = get_transistor(transistor_model);
+    Bjt* transistor = dynamic_cast<Bjt*>(get_transistor(transistor_model));
 
     m_common_emitter =  new CommonEmitter(transistor, vcc, rc, re, rbc, rbe);
 }

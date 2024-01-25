@@ -17,6 +17,8 @@ int main() {
 
     manager.new_bjt_transistor("Q0", "None", 156, 0.6);
     manager.new_bjt_transistor("OC44", "None", 100, 0.3);
+    manager.new_resistor(10, 3.9, 470, 68, 1000, "R1");
+    manager.new_capacitor(1, 1, 1, "C1");
 
     manager.breadboard_common_emitter_circuit("OC44", vcc, rc, re, rbc, rbe);
     manager.calculate_common_emitter_circuit();

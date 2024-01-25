@@ -124,20 +124,16 @@ void CommonEmitter::calculate_input_impedance()
     float resistors[] = {m_rbe, m_rbc, m_rpi_ac};
     int arg_count = sizeof(resistors) / sizeof(float);
 
-    float equivalent_resistance = Resistor::calculate_in_parallel(arg_count, resistors);
-
-    m_z_in = equivalent_resistance;
+    m_z_in = Resistor::calculate_in_parallel(arg_count, resistors);
 }
 
 void CommonEmitter::calculate_output_impedance()
 {
+    m_z_out = m_rc;
     /* Add here R LOAD?? */
-    float resistors[] = {m_rc};
-    int arg_count = sizeof(resistors) / sizeof(float);
-
-    float equivalent_resistance = Resistor::calculate_in_parallel(arg_count, resistors);
-
-    m_z_out = equivalent_resistance;
+//    float resistors[] = {m_rc};
+//    int arg_count = sizeof(resistors) / sizeof(float);
+//    m_z_out = Resistor::calculate_in_parallel(arg_count, resistors);
 }
 
 void CommonEmitter::convert_data()
@@ -201,4 +197,96 @@ void CommonEmitter::circuit_data()
     std::cout << "Av_ac[dB]: " << m_av_ac_db << std::endl;
     std::cout << "re_ac[Ω]: " << m_re_ac << std::endl;
     std::cout << "rpi_ac[kΩ]: " << m_rpi_ac << std::endl;
+}
+
+void CommonEmitter::input_impedance_frequency_analysis(int frequency_range)
+{
+    for (int frequency = 1; frequency < frequency_range; frequency++)
+    {
+        //1. Calculate reactance of 'Cb' for given frequency sample
+        float xc = Capacitor::calculate_reactance(m_cb, frequency);
+
+        //2. Calculate impedance of transistor for given frequency sample
+        float transistor_impedance = transistor_impedance_frequency_analysis(frequency);
+
+        //3. Calculate input impedance of circuit
+        float resistors[] = {m_rbe, m_rbc, transistor_impedance};
+        int arg_count = sizeof(resistors) / sizeof(float);
+
+        float in_parallel = Resistor::calculate_in_parallel(arg_count, resistors);
+
+        float impedance = in_parallel + xc;
+
+        //4. Plot sample (X: impedance, Y: frequency)
+        std::cout << "f[Hz]: " << frequency << ", Z input[Ω?]: " << impedance << std::endl;
+    }
+}
+
+float CommonEmitter::transistor_impedance_frequency_analysis(int frequency_sample)
+{
+    //1. Calculate reactance of 'Ce' for given frequency sample
+    float xc = Capacitor::calculate_reactance(m_ce, frequency_sample);
+
+    float resistances[] = {m_re, xc};
+    int arg_count = sizeof(resistances) / sizeof(float);
+
+    float in_parallel = Resistor::calculate_in_parallel(arg_count, resistances);
+
+    float in_series = in_parallel + m_re_ac;
+
+    return static_cast<float>(m_transistor->current_gain()) * in_series;
+}
+
+void CommonEmitter::output_impedance_frequency_analysis(int frequency_range)
+{
+    for (int frequency = 1; frequency < frequency_range; frequency++)
+    {
+        //1. Calculate reactance of 'Cc' for given frequency sample
+        float xc = Capacitor::calculate_reactance(m_cc, frequency);
+
+        //2. Calculate output impedance
+        float in_series = xc; // in_series: reactance + r_load
+
+        float resistances[] = {m_rc, in_series};
+        int arg_count = sizeof(resistances) / sizeof(float);
+
+        float impedance =  Resistor::calculate_in_parallel(arg_count, resistances);
+
+        //3. Plot sample (X: impedance, Y: frequency)
+        std::cout << "f[Hz]: " << frequency << ", Z output[Ω?]: " << impedance << std::endl;
+    }
+}
+
+void CommonEmitter::voltage_gain_frequency_analysis(int frequency_range)
+{
+    for (int frequency = 1; frequency < frequency_range; frequency++)
+    {
+        //1. Calculate reactance of Ce and Cc
+        float xc_ce = Capacitor::calculate_reactance(m_ce, frequency);
+        float xc_cc = Capacitor::calculate_reactance(m_cc, frequency);
+
+        //2. Calculate impedance of emitter
+        float resistances_emitter[] = {m_re, xc_ce};
+        int arg_count_emitter = sizeof(resistances_emitter) / sizeof(float);
+
+        float in_parallel_emitter = Resistor::calculate_in_parallel(arg_count_emitter, resistances_emitter);
+
+        float emitter_impedance = in_parallel_emitter + m_re_ac;
+
+        //3. Calculate impedance of collector
+        float in_series = xc_cc;    // in_series: reactance + r_load
+
+        float resistances_collector[] = {m_rc, in_series};
+        int arg_count_collector = sizeof(resistances_emitter) / sizeof(float);
+
+        float collector_impedance = Resistor::calculate_in_parallel(arg_count_collector, resistances_collector);
+
+        //4. Calculate voltage gain
+        float voltage_gain = collector_impedance / emitter_impedance;
+
+        float voltage_gain_db = 20 * log10(voltage_gain);
+
+        //5. Plot (X: voltage gain[dB], Y: frequency)
+        std::cout << "f[Hz]: " << frequency << ", Av: " << voltage_gain << ", Av[dB]" << voltage_gain_db << std::endl;
+    }
 }

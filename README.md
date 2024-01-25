@@ -47,4 +47,12 @@ av_ac_db - Voltage gain for AC analysis given in dB
 av_dc - Voltage gain for DC analysis
 
 av_dc_db - Voltage gain for DC analysis given in dB
+
+cc - Collector capacitor
+
+cb - Base capacitor
+
+ce - Emitter capacitor
+
+xc - Reactance of capacitor
 ```

@@ -19,7 +19,7 @@ public:
     Transistor(const std::string& model, const std::string& type, int current_gain);
     virtual ~Transistor() = default;
     std::string model();
-    int current_gain();
+    int current_gain() const;
     virtual void transistor_parameters() = 0;
 };
 

@@ -13,7 +13,7 @@ std::string Transistor::model()
     return m_model;
 }
 
-int Transistor::current_gain()
+int Transistor::current_gain() const
 {
     return m_current_gain;
 }

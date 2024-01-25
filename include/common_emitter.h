@@ -2,6 +2,7 @@
 #include "transistor.h"
 #include "bjt.h"
 #include "resistor.h"
+#include "capacitor.h"
 
 #ifndef COMMON_EMITTER_H
 #define COMMON_EMITTER_H
@@ -29,6 +30,10 @@ private:
     void calculate_input_impedance() override;
     void calculate_output_impedance() override;
     void calculate_voltage_gain() override;
+    void input_impedance_frequency_analysis(int frequency_range) override;
+    void output_impedance_frequency_analysis(int frequency_range) override;
+    float transistor_impedance_frequency_analysis(int frequency_sample) override;
+    void voltage_gain_frequency_analysis(int frequency_range) override;
 
 public:
     CommonEmitter() = default;

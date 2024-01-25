@@ -11,22 +11,14 @@ Manager::~Manager()
     {
         delete transistor;
     }
-//    for (Circuit* circuit : m_circuits)
-//    {
-//        delete circuit;
-//    }
-    delete m_common_emitter;
-}
 
-void Manager::new_bjt_transistor(const std::string& model, const std::string& type, int hfe, float vbe)
-{
-    Bjt* transistor = new Bjt(model, type, hfe, vbe);
-    m_transistors.push_back(transistor);
+    delete m_common_emitter;
 }
 
 void Manager::breadboard_common_emitter_circuit(const std::string& transistor_model, float vcc, float rc, float re, float rbc, float rbe)
 {
     Bjt* transistor = dynamic_cast<Bjt*>(get_transistor(transistor_model));
+
 
     m_common_emitter =  new CommonEmitter(transistor, vcc, rc, re, rbc, rbe);
 }
@@ -42,6 +34,33 @@ void Manager::show_data_from_common_emitter_circuit()
     m_common_emitter->circuit_data();
 }
 
+void Manager::new_bjt_transistor(const std::string& model, const std::string& type, int hfe, float vbe)
+{
+    Bjt* transistor = new Bjt(model, type, hfe, vbe);
+    m_transistors.push_back(transistor);
+}
+
+void Manager::new_resistor(float rc, float re, float rbc, float multiplier, const std::string &label)
+{
+    Resistor* resistor = new Resistor(rc, re, rbc, multiplier, label);
+
+    m_resistors.push_back(resistor);
+}
+
+void Manager::new_resistor(float rc, float re, float rbc, float rbe, float multiplier, const std::string &label)
+{
+    Resistor* resistor = new Resistor(rc, re, rbc, rbe, multiplier, label);
+
+    m_resistors.push_back(resistor);
+}
+
+void Manager::new_capacitor(float cc, float ce, float cb, const std::string &label)
+{
+    Capacitor* capacitor = new Capacitor(cc, ce, cb, label);
+
+    m_capacitors.push_back(capacitor);
+}
+
 Transistor* Manager::get_transistor(const std::string& model)
 {
     for (Transistor* transistor : m_transistors)
@@ -54,6 +73,34 @@ Transistor* Manager::get_transistor(const std::string& model)
 
     // If the loop completes without finding the transistor, throw an exception
     throw std::runtime_error("Transistor model not found: " + model);
+}
+
+Resistor* Manager::get_resistor(const std::string &label)
+{
+    for (Resistor* resistor : m_resistors)
+    {
+        if (resistor->label() == label)
+        {
+            return resistor;
+        }
+    }
+
+    // If the loop completes without finding the resistor, throw an exception
+    throw std::runtime_error("Resistor label not found: " + label);
+}
+
+Capacitor* Manager::get_capacitor(const std::string &label)
+{
+    for (Capacitor* capacitor : m_capacitors)
+    {
+        if (capacitor->label() == label)
+        {
+            return capacitor;
+        }
+    }
+
+    // If the loop completes without finding the resistor, throw an exception
+    throw std::runtime_error("Capacitor label not found: " + label);
 }
 
 void Manager::show_transistors()

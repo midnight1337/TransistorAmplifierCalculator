@@ -13,6 +13,7 @@ private:
     float m_cb;
 
 public:
+    Capacitor(float cc, float cb, const std::string& label);
     Capacitor(float cc, float ce, float cb, const std::string& label);
     static float calculate_reactance(float capacitance, int frequency_sample);
     std::string label() const;

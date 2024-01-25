@@ -31,7 +31,7 @@ public:
     void new_capacitor(float cc, float cb, float ce, const std::string& label);
     void show_transistors();
     void show_transistors(const std::string& model);
-    void breadboard_common_emitter_circuit(const std::string& transistor_model, float vcc, float rc, float re, float rbc, float rbe);
+    void breadboard_common_emitter_circuit(const std::string& transistor_model, const std::string& resistor_label, const std::string& capacitor_label, float vcc);
     void calculate_common_emitter_circuit();
     void show_data_from_common_emitter_circuit();
 };

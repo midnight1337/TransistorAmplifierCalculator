@@ -1,6 +1,8 @@
 #include "../include/transistor.h"
 
 
+int Transistor::m_transistor_id = 0;
+
 Transistor::Transistor(const std::string& model, const std::string& type, int current_gain) : m_id(m_transistor_id++)
 {
     m_model = model;
@@ -17,6 +19,3 @@ int Transistor::current_gain() const
 {
     return m_current_gain;
 }
-
-
-int Transistor::m_transistor_id = 0;

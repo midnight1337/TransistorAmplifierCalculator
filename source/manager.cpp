@@ -15,12 +15,15 @@ Manager::~Manager()
     delete m_common_emitter;
 }
 
-void Manager::breadboard_common_emitter_circuit(const std::string& transistor_model, float vcc, float rc, float re, float rbc, float rbe)
+void Manager::breadboard_common_emitter_circuit(const std::string& transistor_model, const std::string& resistor_label, const std::string& capacitor_label, float vcc)
 {
     Bjt* transistor = dynamic_cast<Bjt*>(get_transistor(transistor_model));
 
+    Resistor* resistor = get_resistor(resistor_label);
 
-    m_common_emitter =  new CommonEmitter(transistor, vcc, rc, re, rbc, rbe);
+    Capacitor* capacitor = get_capacitor(capacitor_label);
+
+    m_common_emitter =  new CommonEmitter(transistor, resistor, capacitor, vcc);
 }
 
 void Manager::calculate_common_emitter_circuit()
@@ -36,7 +39,9 @@ void Manager::show_data_from_common_emitter_circuit()
 
 void Manager::new_bjt_transistor(const std::string& model, const std::string& type, int hfe, float vbe)
 {
+//    std::unique_ptr<Bjt> transistor(new Bjt(model, type, hfe, vbe));
     Bjt* transistor = new Bjt(model, type, hfe, vbe);
+
     m_transistors.push_back(transistor);
 }
 
@@ -99,7 +104,7 @@ Capacitor* Manager::get_capacitor(const std::string &label)
         }
     }
 
-    // If the loop completes without finding the resistor, throw an exception
+    // If the loop completes without finding the capacitor, throw an exception
     throw std::runtime_error("Capacitor label not found: " + label);
 }
 

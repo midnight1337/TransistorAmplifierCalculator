@@ -1,8 +1,4 @@
 #include "circuit.h"
-#include "transistor.h"
-#include "bjt.h"
-#include "resistor.h"
-#include "capacitor.h"
 
 #ifndef COMMON_EMITTER_H
 #define COMMON_EMITTER_H
@@ -37,7 +33,7 @@ private:
 
 public:
     CommonEmitter() = default;
-    CommonEmitter(Bjt *transistor, float vcc, float rc, float re, float rbc, float rbe);
+    CommonEmitter(Bjt* transistor, Resistor* resistor, Capacitor* capacitor, float vcc);
     ~CommonEmitter() override = default;
     void calculate_data() override;
     void circuit_data() override;

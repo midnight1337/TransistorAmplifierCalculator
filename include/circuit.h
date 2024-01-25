@@ -1,5 +1,7 @@
 #include "transistor.h"
 #include "bjt.h"
+#include "resistor.h"
+#include "capacitor.h"
 
 #ifndef CIRCUIT_H
 #define CIRCUIT_H
@@ -10,6 +12,8 @@ class Circuit
 {
 protected:
     TransistorType* m_transistor;
+    Resistor* m_resistor;
+    Capacitor* m_capacitor;
 
     float m_vcc{};
     float m_vc{};
@@ -66,7 +70,7 @@ protected:
 
 public:
     Circuit();
-    Circuit(TransistorType* transistor, float vcc);
+    Circuit(TransistorType* transistor, Resistor* resistor, Capacitor* capacitor, float vcc);
     virtual ~Circuit() = default;
 };
 
@@ -74,9 +78,11 @@ template <typename TransistorType>
 Circuit<TransistorType>::Circuit() = default;
 
 template <typename TransistorType>
-Circuit<TransistorType>::Circuit(TransistorType* transistor, float vcc)
+Circuit<TransistorType>::Circuit(TransistorType* transistor, Resistor* resistor, Capacitor* capacitor, float vcc)
 {
     m_transistor = transistor;
+    m_resistor = resistor;
+    m_capacitor = capacitor;
     m_vcc = vcc;
 }
 

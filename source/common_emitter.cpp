@@ -1,12 +1,12 @@
 #include "../include/common_emitter.h"
 
 
-CommonEmitter::CommonEmitter(Bjt *transistor, float vcc, float rc, float re, float rbc, float rbe) : Circuit(transistor, vcc)
+CommonEmitter::CommonEmitter(Bjt* transistor, Resistor* resistor, Capacitor* capacitor, float vcc) : Circuit(transistor, resistor, capacitor, vcc)
 {
-    m_rbc = rbc;
-    m_rbe = rbe;
-    m_rc = rc;
-    m_re = re;
+    m_rc = m_resistor->collecotr_resistor();
+    m_re = m_resistor->emitter_resistor();
+    m_rbc = m_resistor->base_collector_resistor();
+    m_rbe = m_resistor->base_emitter_resistor();
 }
 
 void CommonEmitter::calculate_data()
@@ -136,69 +136,6 @@ void CommonEmitter::calculate_output_impedance()
 //    m_z_out = Resistor::calculate_in_parallel(arg_count, resistors);
 }
 
-void CommonEmitter::convert_data()
-{
-    m_ib = m_ib * 1000000;  // Convert from A to uA
-    m_ic = m_ic * 1000;     // Convert from A to mA
-    m_ie = m_ie * 1000;     // Convert from A to mA
-    m_ic_sat = m_ic_sat * 1000; // Convert from A to mA
-    m_gm = round(m_gm * 10000.0) / 10000.0;     // Convert from ? to four decimal places
-
-    // Change given resistances into KOHMS
-    float* resistances_to_kohms[] = {&m_rbe, &m_rbc, &m_rc, &m_re, &m_z_in, &m_z_out, &m_rpi_ac, &m_rpi_dc};
-
-    // Convert given data into two decimal float
-    float* convert_data[] = {&m_vc, &m_vb, &m_ve, &m_ic, &m_ib, &m_ie, &m_ic_sat, &m_vce,
-                             &m_rbe, &m_rbc, &m_rc, &m_re, &m_z_in, &m_z_out, &m_rpi_ac,
-                             &m_rpi_dc, &m_re_ac, &m_av_ac, &m_av_dc, &m_av_ac_db, &m_av_dc_db};
-
-    for (float* resistance : resistances_to_kohms)
-    {
-        *resistance = *resistance / 1000;
-    }
-
-    for (float* data : convert_data)
-    {
-        *data = round(*data * 100.0) / 100.0;
-    }
-}
-
-void CommonEmitter::circuit_data()
-{
-    std::cout << "--Input data--" << std::endl;
-    m_transistor->transistor_parameters();
-    std::cout << "VCC[V]: " << m_vcc << std::endl;
-    std::cout << "Rbc[kΩ]: " << m_rbc << std::endl;
-    std::cout << "Rbe[kΩ]: " << m_rbe << std::endl;
-    std::cout << "Rc[kΩ]: " << m_rc << std::endl;
-    std::cout << "Re[kΩ]: " << m_re << std::endl;
-
-    std::cout << "\n--Output data--" << std::endl;
-    std::cout << "Vc[V]: " << m_vc << std::endl;
-    std::cout << "Vb[V]: " << m_vb << std::endl;
-    std::cout << "Ve[V]: " << m_ve << std::endl;
-    std::cout << "Vce[V] (bias): " << m_vce << std::endl;
-    std::cout << "Ic[mA]: " << m_ic << std::endl;
-    std::cout << "Ib[uA]: " << m_ib << std::endl;
-    std::cout << "Ie[mA]: " << m_ie << std::endl;
-    std::cout << "Ic[mA] (saturation): " << m_ic_sat << std::endl;
-    std::cout << "gm[?]: " << m_gm << std::endl;
-    std::cout << "Z_in[kΩ]: " << m_z_in << std::endl;
-    std::cout << "Z_out[kΩ]: " << m_z_out << std::endl;
-    std::cout << "q_point[Ic(sat)/Vcc|Ic/Vce]: " << m_ic_sat << "/" << m_vcc << " | " << m_ic << "/" << m_vce << std::endl;
-
-    std::cout << "\n--Output data DC analysis--" << std::endl;
-    std::cout << "Av_dc (Voltage gain): " << m_av_dc << std::endl;
-    std::cout << "Av_dc[dB]: " << m_av_dc_db << std::endl;
-    std::cout << "r_pi_dc[kΩ]: " << m_rpi_dc << std::endl;
-
-    std::cout << "\n--Output data AC analysis--" << std::endl;
-    std::cout << "Av_ac (Voltage gain): " << m_av_ac << std::endl;
-    std::cout << "Av_ac[dB]: " << m_av_ac_db << std::endl;
-    std::cout << "re_ac[Ω]: " << m_re_ac << std::endl;
-    std::cout << "rpi_ac[kΩ]: " << m_rpi_ac << std::endl;
-}
-
 void CommonEmitter::input_impedance_frequency_analysis(int frequency_range)
 {
     for (int frequency = 1; frequency < frequency_range; frequency++)
@@ -289,4 +226,70 @@ void CommonEmitter::voltage_gain_frequency_analysis(int frequency_range)
         //5. Plot (X: voltage gain[dB], Y: frequency)
         std::cout << "f[Hz]: " << frequency << ", Av: " << voltage_gain << ", Av[dB]" << voltage_gain_db << std::endl;
     }
+}
+
+void CommonEmitter::convert_data()
+{
+    m_ib = m_ib * 1000000;  // Convert from A to uA
+    m_ic = m_ic * 1000;     // Convert from A to mA
+    m_ie = m_ie * 1000;     // Convert from A to mA
+    m_ic_sat = m_ic_sat * 1000; // Convert from A to mA
+    m_gm = round(m_gm * 10000.0) / 10000.0;     // Convert from ? to four decimal places
+
+    // Change given resistances into KOHMS
+    float* resistances_to_kohms[] = {&m_rbe, &m_rbc, &m_rc, &m_re, &m_z_in, &m_z_out, &m_rpi_ac, &m_rpi_dc};
+
+    // Convert given data into two decimal float
+    float* convert_data[] = {&m_vc, &m_vb, &m_ve, &m_ic, &m_ib, &m_ie, &m_ic_sat, &m_vce,
+                             &m_rbe, &m_rbc, &m_rc, &m_re, &m_z_in, &m_z_out, &m_rpi_ac,
+                             &m_rpi_dc, &m_re_ac, &m_av_ac, &m_av_dc, &m_av_ac_db, &m_av_dc_db};
+
+    for (float* resistance : resistances_to_kohms)
+    {
+        *resistance = *resistance / 1000;
+    }
+
+    for (float* data : convert_data)
+    {
+        *data = round(*data * 100.0) / 100.0;
+    }
+}
+
+void CommonEmitter::circuit_data()
+{
+    std::cout << "--Input data--" << std::endl;
+    m_transistor->transistor_parameters();
+    std::cout << "VCC[V]: " << m_vcc << std::endl;
+    std::cout << "Rc[kΩ]: " << m_rc << std::endl;
+    std::cout << "Re[kΩ]: " << m_re << std::endl;
+    std::cout << "Rbc[kΩ]: " << m_rbc << std::endl;
+    std::cout << "Rbe[kΩ]: " << m_rbe << std::endl;
+    std::cout << "Cc[uF]: " << m_cc << std::endl;
+    std::cout << "Ce[uF]: " << m_ce << std::endl;
+    std::cout << "Cb[uF]: " << m_cb << std::endl;
+
+    std::cout << "\n--Output data--" << std::endl;
+    std::cout << "Vc[V]: " << m_vc << std::endl;
+    std::cout << "Vb[V]: " << m_vb << std::endl;
+    std::cout << "Ve[V]: " << m_ve << std::endl;
+    std::cout << "Vce[V] (bias): " << m_vce << std::endl;
+    std::cout << "Ic[mA]: " << m_ic << std::endl;
+    std::cout << "Ib[uA]: " << m_ib << std::endl;
+    std::cout << "Ie[mA]: " << m_ie << std::endl;
+    std::cout << "Ic[mA] (saturation): " << m_ic_sat << std::endl;
+    std::cout << "gm[?]: " << m_gm << std::endl;
+    std::cout << "Z_in[kΩ]: " << m_z_in << std::endl;
+    std::cout << "Z_out[kΩ]: " << m_z_out << std::endl;
+    std::cout << "Q_point: " << m_ic_sat << "/" << m_vcc << "[Ic(sat)/Vcc] | " << m_ic << "/" << m_vce << "[Ic/Vce]" << std::endl;
+
+    std::cout << "\n--Output data DC analysis--" << std::endl;
+    std::cout << "Av_dc (Voltage gain): " << m_av_dc << std::endl;
+    std::cout << "Av_dc[dB]: " << m_av_dc_db << std::endl;
+    std::cout << "r_pi_dc[kΩ]: " << m_rpi_dc << std::endl;
+
+    std::cout << "\n--Output data AC analysis--" << std::endl;
+    std::cout << "Av_ac (Voltage gain): " << m_av_ac << std::endl;
+    std::cout << "Av_ac[dB]: " << m_av_ac_db << std::endl;
+    std::cout << "re_ac[Ω]: " << m_re_ac << std::endl;
+    std::cout << "rpi_ac[kΩ]: " << m_rpi_ac << std::endl;
 }

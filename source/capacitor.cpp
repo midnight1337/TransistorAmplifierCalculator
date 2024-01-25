@@ -1,6 +1,12 @@
 #include "../include/capacitor.h"
 
 
+Capacitor::Capacitor(float cc, float cb, const std::string &label) : m_label(label)
+{
+    m_cc = cc;
+    m_cb = cb;
+}
+
 Capacitor::Capacitor(float cc, float ce, float cb, const std::string& label) : m_label(label)
 {
     m_cc = cc;

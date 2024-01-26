@@ -32,7 +32,7 @@ ic_sat - Saturation current (maximum collector current)
 
 gm - Transconductance of transistor
 
-vt - Thermal voltage of transistor
+vt - Thermal voltage of transistor (const 25mV)
 
 rpi_ac - Input impedance of transistor
 
@@ -55,4 +55,10 @@ cb - Base capacitor
 ce - Emitter capacitor
 
 xc - Reactance of capacitor
+
+fc_in - cutoff frequency of input stage
+
+fc_out - cutoff frequency of output stage
+
+fc_emitter - cutoff frequency of emitter stage
 ```

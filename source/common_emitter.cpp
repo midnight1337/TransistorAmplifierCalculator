@@ -3,10 +3,14 @@
 
 CommonEmitter::CommonEmitter(Bjt* transistor, Resistor* resistor, Capacitor* capacitor, float vcc) : Circuit(transistor, resistor, capacitor, vcc)
 {
-    m_rc = m_resistor->collecotr_resistor();
+    m_rc = m_resistor->collector_resistor();
     m_re = m_resistor->emitter_resistor();
     m_rbc = m_resistor->base_collector_resistor();
     m_rbe = m_resistor->base_emitter_resistor();
+    m_rl = m_resistor->load_resistor();
+    m_cc = m_capacitor->collector_capacitor();
+    m_cb = m_capacitor->base_capacitor();
+    m_ce = m_capacitor->emitter_capacitor();
 }
 
 void CommonEmitter::calculate_data()
@@ -25,6 +29,9 @@ void CommonEmitter::calculate_data()
     calculate_input_impedance();
     calculate_output_impedance();
     calculate_voltage_gain();
+    calculate_cutoff_frequency_of_input_stage();
+    calculate_cutoff_frequency_of_output_stage();
+    calculate_cutoff_frequency_of_emitter_stage();
 }
 
 void CommonEmitter::calculate_base_voltage()
@@ -101,7 +108,7 @@ void CommonEmitter::calculate_transistor_impedance()
     m_rpi_dc = (static_cast<float>(m_transistor->current_gain()) * (m_re + m_re_ac));
 
     /* AC analysis, bypass through Emitter capacitor (Two valid formulas) */
-//    m_rpi_ac = (static_cast<float>(m_transistor->current_gain()) / m_gm );
+//    m_rpi_ac = (static_cast<float>(m_transistor->current_gain() + 1) / m_gm );
     m_rpi_ac = (static_cast<float>(m_transistor->current_gain()) * m_re_ac);
 }
 
@@ -134,6 +141,21 @@ void CommonEmitter::calculate_output_impedance()
 //    float resistors[] = {m_rc};
 //    int arg_count = sizeof(resistors) / sizeof(float);
 //    m_z_out = Resistor::calculate_in_parallel(arg_count, resistors);
+}
+
+void CommonEmitter::calculate_cutoff_frequency_of_input_stage()
+{
+    m_fc_in = Filter::high_pass(m_z_in, m_cb);
+}
+
+void CommonEmitter::calculate_cutoff_frequency_of_output_stage()
+{
+    m_fc_out = Filter::high_pass(m_rl, m_cc);
+}
+
+void CommonEmitter::calculate_cutoff_frequency_of_emitter_stage()
+{
+    m_fc_emitter = Filter::high_pass(m_re, m_ce);
 }
 
 void CommonEmitter::input_impedance_frequency_analysis(int frequency_range)
@@ -242,7 +264,8 @@ void CommonEmitter::convert_data()
     // Convert given data into two decimal float
     float* convert_data[] = {&m_vc, &m_vb, &m_ve, &m_ic, &m_ib, &m_ie, &m_ic_sat, &m_vce,
                              &m_rbe, &m_rbc, &m_rc, &m_re, &m_z_in, &m_z_out, &m_rpi_ac,
-                             &m_rpi_dc, &m_re_ac, &m_av_ac, &m_av_dc, &m_av_ac_db, &m_av_dc_db};
+                             &m_rpi_dc, &m_re_ac, &m_av_ac, &m_av_dc, &m_av_ac_db, &m_av_dc_db,
+                             &m_fc_in, &m_fc_out, &m_fc_emitter};
 
     for (float* resistance : resistances_to_kohms)
     {
@@ -280,6 +303,9 @@ void CommonEmitter::circuit_data()
     std::cout << "gm[?]: " << m_gm << std::endl;
     std::cout << "Z_in[kΩ]: " << m_z_in << std::endl;
     std::cout << "Z_out[kΩ]: " << m_z_out << std::endl;
+    std::cout << "fc_in[Hz]: " << m_fc_in << std::endl;
+    std::cout << "fc_out[Hz]: " << m_fc_out << std::endl;
+    std::cout << "fc_emitter[Hz]: " << m_fc_emitter << std::endl;
     std::cout << "Q_point: " << m_ic_sat << "/" << m_vcc << "[Ic(sat)/Vcc] | " << m_ic << "/" << m_vce << "[Ic/Vce]" << std::endl;
 
     std::cout << "\n--Output data DC analysis--" << std::endl;

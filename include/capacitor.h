@@ -9,14 +9,17 @@ class Capacitor
 private:
     const std::string m_label;
     float m_cc;
-    float m_ce;
     float m_cb;
+    float m_ce;
 
 public:
     Capacitor(float cc, float cb, const std::string& label);
-    Capacitor(float cc, float ce, float cb, const std::string& label);
+    Capacitor(float cc, float cb, float ce, const std::string& label);
     static float calculate_reactance(float capacitance, int frequency_sample);
-    std::string label() const;
+    [[nodiscard]] float collector_capacitor() const;
+    [[nodiscard]] float base_capacitor() const;
+    [[nodiscard]] float emitter_capacitor() const;
+    [[nodiscard]] std::string label() const;
 };
 
 #endif

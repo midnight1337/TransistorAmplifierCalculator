@@ -2,6 +2,7 @@
 #include "bjt.h"
 #include "resistor.h"
 #include "capacitor.h"
+#include "filter.h"
 
 #ifndef CIRCUIT_H
 #define CIRCUIT_H
@@ -15,30 +16,30 @@ protected:
     Resistor* m_resistor;
     Capacitor* m_capacitor;
 
-    float m_vcc{};
-    float m_vc{};
-    float m_vb{};
-    float m_ve{};
-    float m_vce{};
-    float m_ic{};
-    float m_ib{};
-    float m_ie{};
-    float m_ic_sat{};
-    float m_gm{};
+    const float m_vcc;
+    float m_vc;
+    float m_vb;
+    float m_ve;
+    float m_vce;
+    float m_ic;
+    float m_ib;
+    float m_ie;
+    float m_ic_sat;
+    float m_gm;
 
-    float m_re_ac{};
-    float m_rpi_dc{};
-    float m_rpi_ac{};
-    float m_av_ac{};
-    float m_av_ac_db{};
-    float m_av_dc{};
-    float m_av_dc_db{};
-    float m_z_in{};
-    float m_z_out{};
+    float m_re_ac;
+    float m_rpi_dc;
+    float m_rpi_ac;
+    float m_av_ac;
+    float m_av_ac_db;
+    float m_av_dc;
+    float m_av_dc_db;
+    float m_z_in;
+    float m_z_out;
 
-    float m_ce{};
-    float m_cc{};
-    float m_cb{};
+    float m_fc_in;
+    float m_fc_out;
+    float m_fc_emitter;
 
     virtual void calculate_data() = 0;
     virtual void circuit_data() = 0;
@@ -55,6 +56,9 @@ protected:
     virtual void calculate_bias_voltage() = 0;
     virtual void calculate_transistor_internal_emitter_resistance() = 0;
     virtual void calculate_transistor_transconductance() = 0;
+    virtual void calculate_cutoff_frequency_of_input_stage() = 0;
+    virtual void calculate_cutoff_frequency_of_output_stage() = 0;
+    virtual void calculate_cutoff_frequency_of_emitter_stage() = 0;
 
     // AC analysis
     virtual void calculate_transistor_impedance() = 0;
@@ -69,21 +73,16 @@ protected:
     virtual void voltage_gain_frequency_analysis(int frequency_range) = 0;
 
 public:
-    Circuit();
     Circuit(TransistorType* transistor, Resistor* resistor, Capacitor* capacitor, float vcc);
     virtual ~Circuit() = default;
 };
 
 template <typename TransistorType>
-Circuit<TransistorType>::Circuit() = default;
-
-template <typename TransistorType>
-Circuit<TransistorType>::Circuit(TransistorType* transistor, Resistor* resistor, Capacitor* capacitor, float vcc)
+Circuit<TransistorType>::Circuit(TransistorType* transistor, Resistor* resistor, Capacitor* capacitor, float vcc) : m_vcc(vcc)
 {
     m_transistor = transistor;
     m_resistor = resistor;
     m_capacitor = capacitor;
-    m_vcc = vcc;
 }
 
 #endif

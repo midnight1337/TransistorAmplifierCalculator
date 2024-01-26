@@ -14,6 +14,7 @@ private:
     float m_re;
     float m_rbc;
     float m_rbe;
+    float m_rl;
 
 public:
     Resistor(float rc, float rbc, float multiplier, const std::string& label);
@@ -21,11 +22,12 @@ public:
     Resistor(float rc, float re, float rbc, float rbe, float multiplier, const std::string& label);
     static float calculate_in_parallel(int arg_count, const float *resistors);
     static float calculate_in_series(int arg_count, const float* resistors);
-    float collecotr_resistor() const;
-    float emitter_resistor() const;
-    float base_collector_resistor() const;
-    float base_emitter_resistor() const;
-    std::string label() const;
+    [[nodiscard]] float collector_resistor();
+    [[nodiscard]] float emitter_resistor() const;
+    [[nodiscard]] float base_collector_resistor() const;
+    [[nodiscard]] float base_emitter_resistor() const;
+    [[nodiscard]] float load_resistor() const;
+    [[nodiscard]] std::string label() const;
 };
 
 #endif

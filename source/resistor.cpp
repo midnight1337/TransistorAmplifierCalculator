@@ -9,6 +9,7 @@ Resistor::Resistor(float rc, float rbc, float multiplier, const std::string& lab
     m_rbc = rbc * multiplier;
     m_re = 0;
     m_rbe = 0;
+    m_rl = 1000000;
 }
 
 Resistor::Resistor(float rc, float re, float rbc, float multiplier, const std::string& label) : m_label(label), m_id(m_resistor_id++)
@@ -17,6 +18,7 @@ Resistor::Resistor(float rc, float re, float rbc, float multiplier, const std::s
     m_re = re * multiplier;
     m_rbc = rbc * multiplier;
     m_rbe = 0;
+    m_rl = 1000000;
 };
 
 Resistor::Resistor(float rc, float re, float rbc, float rbe, float multiplier, const std::string& label) : m_label(label), m_id(m_resistor_id++)
@@ -25,6 +27,7 @@ Resistor::Resistor(float rc, float re, float rbc, float rbe, float multiplier, c
     m_re = re * multiplier;
     m_rbc = rbc * multiplier;
     m_rbe = rbe * multiplier;
+    m_rl = 1000000;
 };
 
 float Resistor::calculate_in_parallel(int arg_count, const float *resistors)
@@ -53,7 +56,7 @@ float Resistor::calculate_in_series(int arg_count, const float *resistors)
     return resistance;
 }
 
-float Resistor::collecotr_resistor() const
+float Resistor::collector_resistor()
 {
     return m_rc;
 }
@@ -71,6 +74,11 @@ float Resistor::base_collector_resistor() const
 float Resistor::base_emitter_resistor() const
 {
     return m_rbe;
+}
+
+float Resistor::load_resistor() const
+{
+    return m_rl;
 }
 
 std::string Resistor::label() const

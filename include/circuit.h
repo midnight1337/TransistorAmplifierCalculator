@@ -71,6 +71,7 @@ protected:
     virtual void output_impedance_frequency_analysis(int frequency_range) = 0;
     virtual float transistor_impedance_frequency_analysis(int frequency_sample) = 0;
     virtual void voltage_gain_frequency_analysis(int frequency_range) = 0;
+    virtual void cutoff_frequency_input_stage_frequency_analysis(int frequency_range) = 0;
 
 public:
     Circuit(TransistorType* transistor, Resistor* resistor, Capacitor* capacitor, float vcc);

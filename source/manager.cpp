@@ -7,10 +7,9 @@ Manager::Manager()
 
 Manager::~Manager()
 {
-    for (Transistor* transistor : m_transistors)
-    {
-        delete transistor;
-    }
+    for (Transistor* transistor : m_transistors) { delete transistor; }
+    for (Resistor* resistor : m_resistors) { delete resistor; }
+    for (Capacitor* capacitor : m_capacitors) { delete capacitor; }
 
     delete m_common_emitter;
 }
@@ -42,10 +41,7 @@ void Manager::breadboard_common_emitter_circuit(const std::string& transistor_mo
 void Manager::new_transistor(const std::string& model, const std::string& type, int hfe, float vbe)
 {
     Transistor* transistor;
-    if (type == "NPN" || type == "PNP")
-    {
-        transistor = new Bjt(model, type, hfe, vbe);
-    }
+    if (type == "NPN" || type == "PNP") { transistor = new Bjt(model, type, hfe, vbe); }
     else
     {
         // If the loop completes without recognizing a transistor type, throw an exception
@@ -83,10 +79,7 @@ Transistor* Manager::get_transistor(const std::string& model)
 {
     for (Transistor* transistor : m_transistors)
     {
-        if (transistor->model() == model)
-        {
-            return transistor;
-        }
+        if (transistor->model() == model) { return transistor; }
     }
 
     // If the loop completes without finding the transistor, throw an exception
@@ -97,10 +90,7 @@ Resistor* Manager::get_resistor(const std::string &label)
 {
     for (Resistor* resistor : m_resistors)
     {
-        if (resistor->label() == label)
-        {
-            return resistor;
-        }
+        if (resistor->label() == label) { return resistor; }
     }
 
     // If the loop completes without finding the resistor, throw an exception
@@ -111,10 +101,7 @@ Capacitor* Manager::get_capacitor(const std::string &label)
 {
     for (Capacitor* capacitor : m_capacitors)
     {
-        if (capacitor->label() == label)
-        {
-            return capacitor;
-        }
+        if (capacitor->label() == label) { return capacitor; }
     }
 
     // If the loop completes without finding the capacitor, throw an exception
@@ -123,17 +110,15 @@ Capacitor* Manager::get_capacitor(const std::string &label)
 
 void Manager::show_transistors()
 {
-    for (Transistor* transistor : m_transistors)
-    {
-        transistor->transistor_parameters();
-    }
+    for (Transistor* transistor : m_transistors) { transistor->transistor_parameters(); }
 }
 
 void Manager::show_transistors(const std::string& model)
 {
     for (Transistor* transistor : m_transistors)
     {
-        if (transistor->model() == model) {
+        if (transistor->model() == model)
+        {
             transistor->transistor_parameters();
             return;
         }

@@ -7,6 +7,8 @@
 class Capacitor
 {
 private:
+    static int m_capacitor_id;
+    const int m_id;
     const std::string m_label;
     float m_cc;
     float m_cb;
@@ -20,6 +22,7 @@ public:
     [[nodiscard]] float base_capacitor() const;
     [[nodiscard]] float emitter_capacitor() const;
     [[nodiscard]] std::string label() const;
+    void capacitors_values();
 };
 
 #endif

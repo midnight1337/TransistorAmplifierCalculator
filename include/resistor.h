@@ -20,14 +20,16 @@ public:
     Resistor(float rc, float rbc, float multiplier, const std::string& label);
     Resistor(float rc, float re, float rbc, float multiplier, const std::string& label);
     Resistor(float rc, float re, float rbc, float rbe, float multiplier, const std::string& label);
+    static float voltage_divider(float resistance_source, float resistance_ground, float source_voltage);
     static float calculate_in_parallel(int arg_count, const float *resistors);
     static float calculate_in_series(int arg_count, const float* resistors);
-    [[nodiscard]] float collector_resistor();
+    [[nodiscard]] float collector_resistor() const;
     [[nodiscard]] float emitter_resistor() const;
     [[nodiscard]] float base_collector_resistor() const;
     [[nodiscard]] float base_emitter_resistor() const;
     [[nodiscard]] float load_resistor() const;
     [[nodiscard]] std::string label() const;
+    void resistors_values();
 };
 
 #endif

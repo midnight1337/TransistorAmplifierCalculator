@@ -67,11 +67,13 @@ protected:
     virtual void calculate_voltage_gain() = 0;
 
     // Frequency analysis
-    virtual void input_impedance_frequency_analysis(int frequency_range) = 0;
-    virtual void output_impedance_frequency_analysis(int frequency_range) = 0;
-    virtual float transistor_impedance_frequency_analysis(int frequency_sample) = 0;
-    virtual void voltage_gain_frequency_analysis(int frequency_range) = 0;
-    virtual void cutoff_frequency_input_stage_frequency_analysis(int frequency_range) = 0;
+    virtual float calculate_input_impedance(int frequency_sample) = 0;
+    virtual float calculate_output_impedance(int frequency_sample) = 0;
+    virtual float calculate_transistor_impedance(int frequency_sample) = 0;
+    virtual float calculate_voltage_gain(int frequency_sample) = 0;
+    virtual float calculate_magnitude_of_input_stage(int frequency_sample) = 0;
+    virtual float calculate_magnitude_of_output_stage(int frequency_sample) = 0;
+    virtual void frequency_analysis(int frequency_start, int frequency_stop) = 0;
 
 public:
     Circuit(TransistorType* transistor, Resistor* resistor, Capacitor* capacitor, float vcc);

@@ -29,9 +29,11 @@ private:
     float calculate_output_impedance(int frequency_sample) override;
     float calculate_transistor_impedance(int frequency_sample) override;
     float calculate_voltage_gain(int frequency_sample) override;
-    float calculate_magnitude_of_input_stage(int frequency_sample) override;
-    float calculate_magnitude_of_output_stage(int frequency_sample) override;
+    float calculate_loss_of_input_stage(int frequency_sample) override;
+    float calculate_loss_of_output_stage(int frequency_sample) override;
     void frequency_analysis(int frequency_start, int frequency_stop) override;
+
+    float calculate_transistor_emitter_impedance(int frequency_sample);
 
 public:
     CommonEmitter(Bjt* transistor, Resistor* resistor, Capacitor* capacitor, float vcc);

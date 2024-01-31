@@ -19,9 +19,9 @@ Capacitor::Capacitor(float cc, float cb, float ce, const std::string& label) : m
 
 float Capacitor::calculate_reactance(float capacitance, int frequency_sample)
 {
-    /* input: capacitance[uF], frequency_sample[Hz]  */
+    /* input: capacitance[uF], frequency_sample[Hz] */
     capacitance = capacitance / 1000000;
-    return 1 / (2 * 3.14 * capacitance * frequency_sample);
+    return 1 / (2 * M_PI * capacitance * frequency_sample);
 }
 
 std::string Capacitor::label() const

@@ -71,8 +71,8 @@ protected:
     virtual float calculate_output_impedance(int frequency_sample) = 0;
     virtual float calculate_transistor_impedance(int frequency_sample) = 0;
     virtual float calculate_voltage_gain(int frequency_sample) = 0;
-    virtual float calculate_magnitude_of_input_stage(int frequency_sample) = 0;
-    virtual float calculate_magnitude_of_output_stage(int frequency_sample) = 0;
+    virtual float calculate_loss_of_input_stage(int frequency_sample) = 0;
+    virtual float calculate_loss_of_output_stage(int frequency_sample) = 0;
     virtual void frequency_analysis(int frequency_start, int frequency_stop) = 0;
 
 public:

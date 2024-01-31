@@ -27,8 +27,8 @@ public:
     Capacitor* get_capacitor(const std::string& label);
     void run();
     void new_transistor(const std::string& model, const std::string& type, int hfe, float vbe);
-    void new_resistor(float rc, float rbc, float re, float multiplier, const std::string& label);
-    void new_resistor(float rc, float re, float rbc, float rbe, float multiplier, const std::string& label);
+    void new_resistor(float rc, float rbc, float re, float rl, float multiplier, const std::string& label);
+    void new_resistor(float rc, float re, float rbc, float rbe, float rl, float multiplier, const std::string& label);
     void new_capacitor(float cc, float cb, float ce, const std::string& label);
     void breadboard_common_emitter_circuit(const std::string& transistor_model, const std::string& resistor_label, const std::string& capacitor_label, float vcc);
     void show_transistors();

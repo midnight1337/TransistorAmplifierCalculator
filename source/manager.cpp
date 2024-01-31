@@ -19,7 +19,7 @@ void Manager::run()
     const float VCC = 9;
 
     new_transistor("OC44", "NPN", 100, 0.3);
-    new_resistor(10, 3.9, 470, 68, 1000, "Rangemaster");
+    new_resistor(10, 3.9, 470, 68, 1000, 1000, "Rangemaster");
     new_capacitor(0.01, 0.005, 47, "Rangemaster");
 
     breadboard_common_emitter_circuit("OC44", "Rangemaster", "Rangemaster", VCC);
@@ -51,18 +51,18 @@ void Manager::new_transistor(const std::string& model, const std::string& type, 
     m_transistors.push_back(transistor);
 }
 
-void Manager::new_resistor(float rc, float re, float rbc, float multiplier, const std::string &label)
+void Manager::new_resistor(float rc, float re, float rbc, float rl, float multiplier, const std::string &label)
 {
     /* Used in Collector Feedback Circuit?? */
-    Resistor* resistor = new Resistor(rc, re, rbc, multiplier, label);
+    Resistor* resistor = new Resistor(rc, re, rbc, rl, multiplier, label);
 
     m_resistors.push_back(resistor);
 }
 
-void Manager::new_resistor(float rc, float re, float rbc, float rbe, float multiplier, const std::string &label)
+void Manager::new_resistor(float rc, float re, float rbc, float rbe, float rl, float multiplier, const std::string &label)
 {
     /* Used in Common Emitter Circuit */
-    Resistor* resistor = new Resistor(rc, re, rbc, rbe, multiplier, label);
+    Resistor* resistor = new Resistor(rc, re, rbc, rbe, rl, multiplier, label);
 
     m_resistors.push_back(resistor);
 }
@@ -127,4 +127,3 @@ void Manager::show_transistors(const std::string& model)
     // If the loop completes without finding the transistor, throw an exception
     throw std::runtime_error("Transistor model not found: " + model);
 }
-

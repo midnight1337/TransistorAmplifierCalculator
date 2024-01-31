@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cmath>
 
 #ifndef CAPACITOR_H
 #define CAPACITOR_H

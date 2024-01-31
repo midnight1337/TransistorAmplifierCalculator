@@ -3,32 +3,32 @@
 
 int Resistor::m_resistor_id = 0;
 
-Resistor::Resistor(float rc, float rbc, float multiplier, const std::string& label) : m_label(label), m_id(m_resistor_id++)
+Resistor::Resistor(float rc, float rbc, float rl, float multiplier, const std::string& label) : m_label(label), m_id(m_resistor_id++)
 {
     m_rc = rc * multiplier;
     m_rbc = rbc * multiplier;
     m_re = 0;
     m_rbe = 0;
-    m_rl = 1000000;
+    m_rl = rl * multiplier;
 }
 
-Resistor::Resistor(float rc, float re, float rbc, float multiplier, const std::string& label) : m_label(label), m_id(m_resistor_id++)
+Resistor::Resistor(float rc, float re, float rbc, float rl, float multiplier, const std::string& label) : m_label(label), m_id(m_resistor_id++)
 {
     m_rc = rc * multiplier;
     m_re = re * multiplier;
     m_rbc = rbc * multiplier;
     m_rbe = 0;
-    m_rl = 1000000;
-};
+    m_rl = rl * multiplier;
+}
 
-Resistor::Resistor(float rc, float re, float rbc, float rbe, float multiplier, const std::string& label) : m_label(label), m_id(m_resistor_id++)
+Resistor::Resistor(float rc, float re, float rbc, float rbe, float rl, float multiplier, const std::string& label) : m_label(label), m_id(m_resistor_id++)
 {
     m_rc = rc * multiplier;
     m_re = re * multiplier;
     m_rbc = rbc * multiplier;
     m_rbe = rbe * multiplier;
-    m_rl = 1000000;
-};
+    m_rl = rl * multiplier;
+}
 
 float Resistor::voltage_divider(float resistance_source, float resistance_ground, float source_voltage)
 {

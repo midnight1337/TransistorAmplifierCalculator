@@ -25,11 +25,15 @@ private:
     void calculate_cutoff_frequency_of_output_stage() override;
     void calculate_cutoff_frequency_of_emitter_stage() override;
 
-    void input_impedance_frequency_analysis(int frequency_range) override;
-    void output_impedance_frequency_analysis(int frequency_range) override;
-    float transistor_impedance_frequency_analysis(int frequency_sample) override;
-    void voltage_gain_frequency_analysis(int frequency_range) override;
-    void cutoff_frequency_input_stage_frequency_analysis(int frequency_range) override;
+    float calculate_input_impedance(int frequency_sample) override;
+    float calculate_output_impedance(int frequency_sample) override;
+    float calculate_transistor_impedance(int frequency_sample) override;
+    float calculate_voltage_gain(int frequency_sample) override;
+    float calculate_loss_of_input_stage(int frequency_sample) override;
+    float calculate_loss_of_output_stage(int frequency_sample) override;
+    void frequency_analysis(int frequency_start, int frequency_stop) override;
+
+    float calculate_transistor_emitter_impedance(int frequency_sample);
 
 public:
     CommonEmitter(Bjt* transistor, Resistor* resistor, Capacitor* capacitor, float vcc);

@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cmath>
 
 #ifndef FILTER_H
 #define FILTER_H

@@ -17,29 +17,13 @@ protected:
     Capacitor* m_capacitor;
 
     const float m_vcc;
-    float m_vc;
-    float m_vb;
-    float m_ve;
-    float m_vce;
-    float m_ic;
-    float m_ib;
-    float m_ie;
-    float m_ic_sat;
+    float m_vc, m_vb, m_ve, m_vce;
+    float m_ic, m_ib, m_ie, m_ic_sat;
+    float m_re_ac, m_rpi_dc, m_rpi_ac;
+    float m_av_ac, m_av_ac_db, m_av_dc, m_av_dc_db;
+    float m_z_in, m_z_out;
+    float m_fc_in, m_fc_out, m_fc_emitter;
     float m_gm;
-
-    float m_re_ac;
-    float m_rpi_dc;
-    float m_rpi_ac;
-    float m_av_ac;
-    float m_av_ac_db;
-    float m_av_dc;
-    float m_av_dc_db;
-    float m_z_in;
-    float m_z_out;
-
-    float m_fc_in;
-    float m_fc_out;
-    float m_fc_emitter;
 
     virtual void calculate_data() = 0;
     virtual void circuit_data() = 0;

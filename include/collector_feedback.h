@@ -31,13 +31,10 @@ private:
     float calculate_voltage_gain(int frequency_sample) override;
     float calculate_loss_of_input_stage(int frequency_sample) override;
     float calculate_loss_of_output_stage(int frequency_sample) override;
-    void frequency_analysis(int frequency_start, int frequency_stop) override;
 
 public:
     CollectorFeedback(Bjt* transistor, Resistor* resistor, Capacitor* capacitor, float vcc);
     ~CollectorFeedback() override = default;
-    void calculate_data() override;
-    void circuit_data() override;
     void convert_data() override;
 };
 

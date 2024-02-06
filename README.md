@@ -1,16 +1,24 @@
 # TransistorAmplifierCalculator
 
+#### Common Emitter Circuit
+Picture here
+
+#### Collector Feedback Circuit
+Picture here
+
 ### Abbreviations
 ```
 vcc - Common collector voltage (voltage supply)
 
-rc - Collector resistor
+rc - Collector resistance
 
-re - Emitter resistor
+re - Emitter resistance
 
 re_ac - Emitter dynamic internal resistance of transistor
 
-rl - Load resistor at the circuit output
+rl - Load resistance at the circuit output
+
+rs - Source resistance at the circuit input
 
 vc - Collector voltage
 
@@ -48,13 +56,13 @@ av_dc - Voltage gain for DC analysis
 
 av_dc_db - Voltage gain for DC analysis given in dB
 
-cc - Collector capacitor
+cc - Collector capacitance
 
-cb - Base capacitor
+cb - Base capacitance
 
-ce - Emitter capacitor
+ce - Emitter capacitance
 
-xc - Reactance of capacitor
+xc - Reactance of capacitance
 
 fc_in - cutoff frequency of input stage
 

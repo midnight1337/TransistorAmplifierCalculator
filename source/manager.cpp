@@ -13,6 +13,7 @@ Manager::~Manager()
     for (Capacitor* capacitor : m_capacitors) { delete capacitor; }
 
     delete m_common_emitter;
+    delete m_collector_feedback;
 }
 
 void Manager::run()
@@ -23,7 +24,7 @@ void Manager::run()
     new_resistor(10, 3.9, 470, 68, 1000, 1000, "Rangemaster");
     new_capacitor(0.01, 0.005, 47, "Rangemaster");
 
-//    breadboard_common_emitter_circuit("OC44", "Rangemaster", "Rangemaster", VCC);
+    breadboard_common_emitter_circuit("OC44", "Rangemaster", "Rangemaster", VCC);
 }
 
 void Manager::breadboard_common_emitter_circuit(const std::string& transistor_model, const std::string& resistor_label, const std::string& capacitor_label, float vcc)
@@ -35,6 +36,7 @@ void Manager::breadboard_common_emitter_circuit(const std::string& transistor_mo
     m_common_emitter =  new CommonEmitter(transistor, resistor, capacitor, vcc);
 
     m_common_emitter->calculate_data();
+//    m_common_emitter->frequency_analysis(1, 3000);
     m_common_emitter->convert_data();
     m_common_emitter->circuit_data();
 }
@@ -48,7 +50,7 @@ void Manager::breadboard_collector_feedback_circuit(const std::string& transisto
     m_collector_feedback = new CollectorFeedback(transistor, resistor, capacitor, vcc);
 }
 
-void Manager::new_transistor(const std::string& model, const std::string& type, int hfe, float vbe)
+void Manager::new_transistor(const std::string& model, const std::string& type, float hfe, float vbe)
 {
     Transistor* transistor;
     if (type == "NPN" || type == "PNP") { transistor = new Bjt(model, type, hfe, vbe); }

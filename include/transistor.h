@@ -10,17 +10,15 @@ private:
     static int m_transistor_id;
 
 protected:
+    const int m_id;
     std::string m_model;
     std::string m_type;
-    int m_current_gain;
-    const int m_id;
 
 public:
-    Transistor(const std::string& model, const std::string& type, int current_gain);
+    Transistor(const std::string& model, const std::string& type);
     virtual ~Transistor() = default;
-    std::string model();
-    int current_gain() const;
     virtual void transistor_parameters() = 0;
+    std::string model();
 };
 
 #endif

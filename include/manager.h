@@ -25,7 +25,7 @@ private:
     Resistor* get_resistor(const std::string& label);
     Capacitor* get_capacitor(const std::string& label);
 
-    void new_transistor(const std::string& model, const std::string& type, int hfe, float vbe);
+    void new_transistor(const std::string& model, const std::string& type, float hfe, float vbe);
     void new_resistor(float rc, float rbc, float re, float rl, float multiplier, const std::string& label);
     void new_resistor(float rc, float re, float rbc, float rbe, float rl, float multiplier, const std::string& label);
     void new_capacitor(float cc, float cb, float ce, const std::string& label);

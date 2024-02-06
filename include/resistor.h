@@ -15,6 +15,7 @@ private:
     float m_rbc;
     float m_rbe;
     float m_rl;
+    float m_rs;
 
 public:
     Resistor(float rc, float rbc, float rl, float multiplier, const std::string& label);

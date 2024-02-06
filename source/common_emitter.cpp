@@ -2,42 +2,8 @@
 
 
 CommonEmitter::CommonEmitter(Bjt *transistor, Resistor *resistor, Capacitor *capacitor, float vcc) :
-Circuit(transistor, resistor, capacitor, vcc) {}
-
-void CommonEmitter::calculate_data()
-{
-    calculate_base_voltage();
-    calculate_base_current();
-    calculate_collector_current();
-    calculate_emitter_current();
-    calculate_saturation_current();
-    calculate_collector_voltage();
-    calculate_emitter_voltage();
-    calculate_bias_voltage();
-    calculate_transistor_internal_emitter_resistance();
-    calculate_transistor_transconductance();
-    calculate_transistor_impedance();
-    calculate_input_impedance();
-    calculate_output_impedance();
-    calculate_voltage_gain();
-    calculate_cutoff_frequency_of_input_stage();
-    calculate_cutoff_frequency_of_output_stage();
-    calculate_cutoff_frequency_of_emitter_stage();
-    frequency_analysis(1, 3000);
-}
-
-void CommonEmitter::frequency_analysis(int frequency_start, int frequency_stop)
-{
-    for (int frequency_sample = frequency_start; frequency_sample < frequency_stop; frequency_sample++)
-    {
-        std::cout << "\nf[Hz]: " << frequency_sample << std::endl;
-//        calculate_input_impedance(frequency_sample);
-//        calculate_output_impedance(frequency_sample);
-        calculate_voltage_gain(frequency_sample);
-//        calculate_loss_of_input_stage(frequency_sample);
-//        calculate_loss_of_output_stage(frequency_sample);
-    }
-}
+Circuit(transistor, resistor, capacitor, vcc)
+{}
 
 void CommonEmitter::calculate_base_voltage()
 {
@@ -57,14 +23,14 @@ void CommonEmitter::calculate_base_current()
     int arg_count = sizeof(resistors) / sizeof(float);
     float equivalent_resistance = Resistor::calculate_in_parallel(arg_count, resistors);
 
-    float denominator = (equivalent_resistance + (static_cast<float>(m_transistor->current_gain() + 1) * m_resistor->emitter_resistor()));
+    float denominator = (equivalent_resistance + (m_transistor->hfe() + 1) * m_resistor->emitter_resistor());
 
     m_ib = nominator / denominator;
 }
 
 void CommonEmitter::calculate_collector_current()
 {
-    m_ic = static_cast<float>(m_transistor->current_gain()) * m_ib;
+    m_ic = m_transistor->hfe() * m_ib;
 }
 
 void CommonEmitter::calculate_emitter_current()
@@ -74,7 +40,7 @@ void CommonEmitter::calculate_emitter_current()
 
 void CommonEmitter::calculate_saturation_current()
 {
-    m_ic_sat = m_vcc / (m_resistor->collector_resistor() + m_resistor->emitter_resistor());
+    m_ic_sat = m_vcc / (m_resistor->collector_resistor() + m_resistor->emitter_resistor() + m_re_ac);
 }
 
 void CommonEmitter::calculate_collector_voltage()
@@ -105,11 +71,11 @@ void CommonEmitter::calculate_transistor_transconductance()
 void CommonEmitter::calculate_transistor_impedance()
 {
     /* DC analysis, no bypass through Emitter capacitor */
-    m_rpi_dc = (static_cast<float>(m_transistor->current_gain()) * (m_resistor->emitter_resistor() + m_re_ac));
+    m_rpi_dc = ((m_transistor->hfe() + 1) * (m_resistor->emitter_resistor() + m_re_ac));
 
     /* AC analysis, bypass through Emitter capacitor (Two valid formulas) */
-//    m_rpi_ac = (static_cast<float>(m_transistor->current_gain() + 1) / m_gm);
-    m_rpi_ac = (static_cast<float>(m_transistor->current_gain()) * m_re_ac);
+//    m_rpi_ac = (m_transistor->hfe() + 1) / m_gm;
+    m_rpi_ac = ((m_transistor->hfe() + 1) * m_re_ac);
 }
 
 void CommonEmitter::calculate_input_impedance()
@@ -124,6 +90,7 @@ void CommonEmitter::calculate_output_impedance()
 {
     float resistors[] = {m_resistor->collector_resistor(), m_resistor->load_resistor()};
     int arg_count = sizeof(resistors) / sizeof(float);
+
     m_z_out = Resistor::calculate_in_parallel(arg_count, resistors);
 }
 
@@ -183,7 +150,7 @@ float CommonEmitter::calculate_transistor_impedance(int frequency_sample)
     float emitter_impedance = calculate_transistor_emitter_impedance(frequency_sample);
 
     /* 2.Calculate transistor impedance */
-    float impedance = static_cast<float>(m_transistor->current_gain()) * emitter_impedance;
+    float impedance = (m_transistor->hfe() + 1) * emitter_impedance;
 
     /* Plot (X: impedance, Y: frequency) */
     std::cout << "Rpi[KΩ]: " << impedance / 1000 << std::endl;
@@ -274,8 +241,8 @@ float CommonEmitter::calculate_loss_of_input_stage(int frequency_sample)
     /* b) second approach - (This produces the same output as loss calculated on first approach) */
 //    float cutoff_frequency = Filter::high_pass(impedance, m_capacitor->base_capacitor());
 //    float loss_numerator = 2 * M_PI * frequency_sample;
-//    float loss_denumerator = sqrt(pow((2 * M_PI * frequency_sample), 2) + pow((2 * M_PI * cutoff_frequency), 2));
-//    float loss = loss_numerator / loss_denumerator;
+//    float loss_denominator = sqrt(pow((2 * M_PI * frequency_sample), 2) + pow((2 * M_PI * cutoff_frequency), 2));
+//    float loss = loss_numerator / loss_denominator;
 
     /* 4.Convert loss to absolute value and to dB */
     float loss_db = abs(20 * log10(loss));
@@ -322,42 +289,4 @@ void CommonEmitter::convert_data()
     for (float *data: convert_data) {
         *data = round(*data * 100.0) / 100.0;
     }
-}
-
-void CommonEmitter::circuit_data()
-{
-    std::cout << "--Input data--" << std::endl;
-    m_transistor->transistor_parameters();
-    m_resistor->resistors_values();
-    m_capacitor->capacitors_values();
-    std::cout << "VCC[V]: " << m_vcc << std::endl;
-
-    std::cout << "\n--Output data--" << std::endl;
-    std::cout << "Vc[V]: " << m_vc << std::endl;
-    std::cout << "Vb[V]: " << m_vb << std::endl;
-    std::cout << "Ve[V]: " << m_ve << std::endl;
-    std::cout << "Vce[V] (bias): " << m_vce << std::endl;
-    std::cout << "Ic[mA]: " << m_ic << std::endl;
-    std::cout << "Ib[uA]: " << m_ib << std::endl;
-    std::cout << "Ie[mA]: " << m_ie << std::endl;
-    std::cout << "Ic[mA] (saturation): " << m_ic_sat << std::endl;
-    std::cout << "gm[?]: " << m_gm << std::endl;
-    std::cout << "Z_in[kΩ]: " << m_z_in << std::endl;
-    std::cout << "Z_out[kΩ]: " << m_z_out << std::endl;
-    std::cout << "fc_in(HP)[Hz]: " << m_fc_in << std::endl;
-    std::cout << "fc_out(HP)[Hz]: " << m_fc_out << std::endl;
-    std::cout << "fc_emitter(HP)[Hz]: " << m_fc_emitter << std::endl;
-    std::cout << "Q_point: " << m_ic_sat << "/" << m_vcc << "[Ic(sat)/Vcc] | " << m_ic << "/" << m_vce << "[Ic/Vce]"
-              << std::endl;
-
-    std::cout << "\n--Output data DC analysis--" << std::endl;
-    std::cout << "Av_dc (Voltage gain): " << m_av_dc << std::endl;
-    std::cout << "Av_dc[dB]: " << m_av_dc_db << std::endl;
-    std::cout << "r_pi_dc[kΩ]: " << m_rpi_dc << std::endl;
-
-    std::cout << "\n--Output data AC analysis--" << std::endl;
-    std::cout << "Av_ac (Voltage gain): " << m_av_ac << std::endl;
-    std::cout << "Av_ac[dB]: " << m_av_ac_db << std::endl;
-    std::cout << "re_ac[Ω]: " << m_re_ac << std::endl;
-    std::cout << "rpi_ac[kΩ]: " << m_rpi_ac << std::endl;
 }

@@ -25,19 +25,18 @@ private:
     Resistor* get_resistor(const std::string& label);
     Capacitor* get_capacitor(const std::string& label);
 
-    void new_transistor(const std::string& model, const std::string& type, float hfe, float vbe);
-    void new_resistor(float rc, float rbc, float re, float rl, float multiplier, const std::string& label);
-    void new_resistor(float rc, float re, float rbc, float rbe, float rl, float multiplier, const std::string& label);
-    void new_capacitor(float cc, float cb, float ce, const std::string& label);
-    void breadboard_common_emitter_circuit(const std::string& transistor_model, const std::string& resistor_label, const std::string& capacitor_label, float vcc);
-    void breadboard_collector_feedback_circuit(const std::string& transistor_model, const std::string& resistor_label, const std::string& capacitor_label, float vcc);
+    void new_transistor(const std::string& model, const std::string& type, const float& hfe, const float& vbe);
+    void new_resistor(const float& rc, const float& re, const float& rbc, const float& rbe, const float& rl, const float& multiplier, const std::string& label);
+    void new_resistor(const float& rc, const float& re, const float& rbc, const float& rbe, const float& rl, const float& rs, const float& multiplier, const std::string &label);
+    void new_capacitor(const float& cc, const float& cb, const float& ce, const std::string& label);
+    void breadboard_common_emitter_circuit(const std::string& transistor_model, const std::string& resistor_label, const std::string& capacitor_label, const float& vcc);
+    void breadboard_collector_feedback_circuit(const std::string& transistor_model, const std::string& resistor_label, const std::string& capacitor_label, const float& vcc);
     void show_transistors();
     void show_transistors(const std::string& model);
 
 public:
     Manager();
     ~Manager();
-
     void run();
 };
 

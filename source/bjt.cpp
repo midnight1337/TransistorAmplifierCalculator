@@ -19,7 +19,7 @@ float Bjt::vt() const
     return m_vt;
 }
 
-void Bjt::transistor_parameters()
+void Bjt::transistor_data()
 {
     std::cout << "ID: " << m_id << std::endl;
     std::cout << "MODEL: " << m_model << std::endl;

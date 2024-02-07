@@ -24,10 +24,15 @@ void Manager::run()
     new_resistor(10, 3.9, 470, 68, 1000, 1000, "Rangemaster");
     new_capacitor(0.01, 0.005, 47, "Rangemaster");
 
+    new_transistor("Q1", "NPN", 100, 0.7);
+    new_resistor(10, 3.9, 470, 68, 1000, 1000, 1000, "R1");
+    new_capacitor(0.01, 0.005, 47, "C1");
+
     breadboard_common_emitter_circuit("OC44", "Rangemaster", "Rangemaster", VCC);
+    breadboard_collector_feedback_circuit("Q1", "R1", "C1", VCC);
 }
 
-void Manager::breadboard_common_emitter_circuit(const std::string& transistor_model, const std::string& resistor_label, const std::string& capacitor_label, float vcc)
+void Manager::breadboard_common_emitter_circuit(const std::string& transistor_model, const std::string& resistor_label, const std::string& capacitor_label, const float& vcc)
 {
     Bjt* transistor = dynamic_cast<Bjt*>(get_transistor(transistor_model));
     Resistor* resistor = get_resistor(resistor_label);
@@ -36,12 +41,12 @@ void Manager::breadboard_common_emitter_circuit(const std::string& transistor_mo
     m_common_emitter =  new CommonEmitter(transistor, resistor, capacitor, vcc);
 
     m_common_emitter->calculate_data();
-//    m_common_emitter->frequency_analysis(1, 3000);
+    m_common_emitter->frequency_analysis(0, 3000);
     m_common_emitter->convert_data();
-    m_common_emitter->circuit_data();
+    m_common_emitter->show_circuit_data();
 }
 
-void Manager::breadboard_collector_feedback_circuit(const std::string& transistor_model, const std::string& resistor_label, const std::string& capacitor_label, float vcc)
+void Manager::breadboard_collector_feedback_circuit(const std::string& transistor_model, const std::string& resistor_label, const std::string& capacitor_label, const float& vcc)
 {
     Bjt* transistor = dynamic_cast<Bjt*>(get_transistor(transistor_model));
     Resistor* resistor = get_resistor(resistor_label);
@@ -50,7 +55,7 @@ void Manager::breadboard_collector_feedback_circuit(const std::string& transisto
     m_collector_feedback = new CollectorFeedback(transistor, resistor, capacitor, vcc);
 }
 
-void Manager::new_transistor(const std::string& model, const std::string& type, float hfe, float vbe)
+void Manager::new_transistor(const std::string& model, const std::string& type, const float& hfe, const float& vbe)
 {
     Transistor* transistor;
     if (type == "NPN" || type == "PNP") { transistor = new Bjt(model, type, hfe, vbe); }
@@ -63,15 +68,7 @@ void Manager::new_transistor(const std::string& model, const std::string& type, 
     m_transistors.push_back(transistor);
 }
 
-void Manager::new_resistor(float rc, float re, float rbc, float rl, float multiplier, const std::string &label)
-{
-    /* Used in Collector Feedback Circuit?? */
-    Resistor* resistor = new Resistor(rc, re, rbc, rl, multiplier, label);
-
-    m_resistors.push_back(resistor);
-}
-
-void Manager::new_resistor(float rc, float re, float rbc, float rbe, float rl, float multiplier, const std::string &label)
+void Manager::new_resistor(const float& rc, const float& re, const float &rbc, const float& rbe, const float& rl, const float& multiplier, const std::string &label)
 {
     /* Used in Common Emitter Circuit */
     Resistor* resistor = new Resistor(rc, re, rbc, rbe, rl, multiplier, label);
@@ -79,7 +76,15 @@ void Manager::new_resistor(float rc, float re, float rbc, float rbe, float rl, f
     m_resistors.push_back(resistor);
 }
 
-void Manager::new_capacitor(float cc, float ce, float cb, const std::string &label)
+void Manager::new_resistor(const float& rc, const float& re, const float& rbc, const float& rbe, const float& rl, const float& rs, const float& multiplier, const std::string &label)
+{
+    /* Used in (Common Emitter - Collector Feedback - Shunt emitter) Circuit */
+    Resistor* resistor = new Resistor(rc, re, rbc, rbe, rl, rs, multiplier, label);
+
+    m_resistors.push_back(resistor);
+}
+
+void Manager::new_capacitor(const float& cc, const float& ce, const float& cb, const std::string &label)
 {
     /* Used in Common Emitter Circuit */
     Capacitor* capacitor = new Capacitor(cc, ce, cb, label);
@@ -91,7 +96,7 @@ Transistor* Manager::get_transistor(const std::string& model)
 {
     for (Transistor* transistor : m_transistors)
     {
-        if (transistor->model() == model) { return transistor; }
+        if (transistor->model() == model){ return transistor; }
     }
 
     // If the loop completes without finding the transistor, throw an exception
@@ -122,7 +127,7 @@ Capacitor* Manager::get_capacitor(const std::string &label)
 
 void Manager::show_transistors()
 {
-    for (Transistor* transistor : m_transistors) { transistor->transistor_parameters(); }
+    for (Transistor* transistor : m_transistors) { transistor->transistor_data(); }
 }
 
 void Manager::show_transistors(const std::string& model)
@@ -131,7 +136,7 @@ void Manager::show_transistors(const std::string& model)
     {
         if (transistor->model() == model)
         {
-            transistor->transistor_parameters();
+            transistor->transistor_data();
             return;
         }
     }

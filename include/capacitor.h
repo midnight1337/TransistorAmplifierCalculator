@@ -16,14 +16,13 @@ private:
     float m_ce;
 
 public:
-    Capacitor(float cc, float cb, const std::string& label);
     Capacitor(float cc, float cb, float ce, const std::string& label);
-    static float calculate_reactance(float capacitance, int frequency_sample);
-    [[nodiscard]] float collector_capacitor() const;
-    [[nodiscard]] float base_capacitor() const;
-    [[nodiscard]] float emitter_capacitor() const;
+    static float calculate_capacitive_reactance(float capacitance, int frequency_sample);
+    [[nodiscard]] float collector_capacitance() const;
+    [[nodiscard]] float base_capacitance() const;
+    [[nodiscard]] float emitter_capacitance() const;
     [[nodiscard]] std::string label() const;
-    void capacitors_values();
+    void capacitor_data();
 };
 
 #endif

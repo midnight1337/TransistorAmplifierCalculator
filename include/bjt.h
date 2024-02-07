@@ -15,7 +15,7 @@ private:
 public:
     Bjt(const std::string& model, const std::string& type, float hfe, float vbe);
     ~Bjt() override = default;
-    void transistor_parameters() override;
+    void transistor_data() override;
     float hfe() const;
     float vbe() const;
     float vt() const;

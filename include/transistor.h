@@ -17,7 +17,7 @@ protected:
 public:
     Transistor(const std::string& model, const std::string& type);
     virtual ~Transistor() = default;
-    virtual void transistor_parameters() = 0;
+    virtual void transistor_data() = 0;
     std::string model();
 };
 

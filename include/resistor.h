@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 
 #ifndef RESISTOR_H
 #define RESISTOR_H
@@ -21,16 +22,17 @@ public:
     Resistor(float rc, float rbc, float rl, float multiplier, const std::string& label);
     Resistor(float rc, float re, float rbc, float rl, float multiplier, const std::string& label);
     Resistor(float rc, float re, float rbc, float rbe, float rl, float multiplier, const std::string& label);
-    static float voltage_divider(float resistance_source, float resistance_ground, float source_voltage);
-    static float calculate_in_parallel(int arg_count, const float *resistors);
-    static float calculate_in_series(int arg_count, const float* resistors);
-    float collector_resistor() const;
-    float emitter_resistor() const;
-    float base_collector_resistor() const;
-    float base_emitter_resistor() const;
-    float load_resistor() const;
+    Resistor(float rc, float re, float rbc, float rbe, float rl, float rs, float multiplier, const std::string& label);
+    static float calculate_resistance_in_parallel(const std::vector<float>& resistors);
+    static float calculate_resistance_in_series(const std::vector<float>& resistances);
+    float collector_resistance() const;
+    float emitter_resistance() const;
+    float base_collector_resistance() const;
+    float base_emitter_resistance() const;
+    float load_resistance() const;
+    float source_resistance() const;
     std::string label() const;
-    void resistors_values();
+    void resistor_data();
 };
 
 #endif

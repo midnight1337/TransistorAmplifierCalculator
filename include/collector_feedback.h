@@ -35,7 +35,6 @@ private:
 public:
     CollectorFeedback(Bjt* transistor, Resistor* resistor, Capacitor* capacitor, float vcc);
     ~CollectorFeedback() override = default;
-    void convert_data() override;
 };
 
 #endif

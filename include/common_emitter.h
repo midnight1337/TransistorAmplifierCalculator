@@ -37,7 +37,6 @@ private:
 public:
     CommonEmitter(Bjt* transistor, Resistor* resistor, Capacitor* capacitor, float vcc);
     ~CommonEmitter() override = default;
-    void convert_data() override;
 };
 
 #endif

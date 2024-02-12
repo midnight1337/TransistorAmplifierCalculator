@@ -8,6 +8,7 @@
 class Filter
 {
 private:
+    static const int M_UF_TO_F = 1000000;
 
 public:
     Filter();

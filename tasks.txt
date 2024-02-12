@@ -16,13 +16,18 @@ Functional Requirements
 # User Stories
 
 DONE
-User Story: As a User, I want to calculate data for Common Emitter
+User Story: As a User, I want to calculate data for Common Emitter known as Treble Booster
 1. Calculate data for common emitter
 	- Calculate data with given parameters
 	- Prevent from giving bad/undefined parameters
 
-User Story: As a User, I want to calculate data for Collector Feedback
+User Story: As a User, I want to calculate data for Common Emitter with Collector Feedback known as Big Muff
 2. Calculate data for collector feedback
+	- Calculate data with given parameters
+	- Prevent from giving bad/undefined parameters
+
+User Story: As a User, I want to calculate data for Emitter Follower known as Buffer
+3. Calculate data for a emitter follower
 	- Calculate data with given parameters
 	- Prevent from giving bad/undefined parameters
 
@@ -41,7 +46,7 @@ Engineering Story: As an Engineer, I want to see unit tests
 
 DONE
 Engineering Story: As an Engineer, I want to make given methods inherited
-2. Unify convert_data and show_circuit_data in Circuit
+2. Unify convert_data and show_data in Circuit
     - Make it common for Derived classes
 
 DONE
@@ -59,6 +64,11 @@ Engineering Story: As an Engineer, I want to calculate resistors in parallel wit
 5. Store resistances in dynamically allocated array
     - Use vector instead of array
 
-Engineering Story: As an Engineer, I want to all pointers become smart pointers for safety reason
+DONE
+Engineering Story: As an Engineer, I want to all dynamically allocated objects become smart pointers for safety reason
 6. Change raw pointers into smart pointers
     - Use unique_pointer and make_unique
+
+Engineering Story: As an Engineer, I want to implement Common Emitter Collector Feedback amplifier
+7. Do math
+    - as above

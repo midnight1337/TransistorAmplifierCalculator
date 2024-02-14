@@ -30,61 +30,68 @@ Resistor::Resistor(float rc, float re, float rbc, float rbe, float rl, float mul
     m_rl = rl * multiplier;
 }
 
-float Resistor::voltage_divider(float resistance_source, float resistance_ground, float source_voltage)
+Resistor::Resistor(float rc, float re, float rbc, float rbe, float rl, float rs, float multiplier, const std::string& label) : m_label(label), m_id(m_resistor_id++)
 {
-    /* Returns a output voltage */
-    return (source_voltage * resistance_ground) / (resistance_source + resistance_ground);
+    m_rc = rc * multiplier;
+    m_re = re * multiplier;
+    m_rbc = rbc * multiplier;
+    m_rbe = rbe * multiplier;
+    m_rl = rl * multiplier;
+    m_rs = rs * multiplier;
 }
 
-float Resistor::calculate_in_parallel(int arg_count, const float *resistors)
+float Resistor::calculate_resistance_in_parallel(const std::vector<float>& resistors)
 {
-    float resistance = 0.0;
+    float resistance_in_parallel = 0.0;
 
-    for (int i = 0; i < arg_count; i++)
+    for (float resistance : resistors)
     {
-        resistance += 1 / resistors[i];
+        resistance_in_parallel += 1 / resistance;
     }
 
-    resistance = 1 / resistance;
-
-    return resistance;
+    return 1 / resistance_in_parallel;
 }
 
-float Resistor::calculate_in_series(int arg_count, const float *resistors)
+float Resistor::calculate_resistance_in_series(const std::vector<float>& resistances)
 {
-    float resistance = 0.0;
+    float resistance_in_series = 0.0;
 
-    for (int i = 0; i < arg_count; i++)
+    for (float resistance : resistances)
     {
-        resistance += resistors[i];
+        resistance_in_series += resistance;
     }
 
-    return resistance;
+    return resistance_in_series;
 }
 
-float Resistor::collector_resistor() const
+float Resistor::collector_resistance() const
 {
     return m_rc;
 }
 
-float Resistor::emitter_resistor() const
+float Resistor::emitter_resistance() const
 {
     return m_re;
 }
 
-float Resistor::base_collector_resistor() const
+float Resistor::base_collector_resistance() const
 {
     return m_rbc;
 }
 
-float Resistor::base_emitter_resistor() const
+float Resistor::base_emitter_resistance() const
 {
     return m_rbe;
 }
 
-float Resistor::load_resistor() const
+float Resistor::load_resistance() const
 {
     return m_rl;
+}
+
+float Resistor::source_resistance() const
+{
+    return m_rs;
 }
 
 std::string Resistor::label() const
@@ -92,13 +99,15 @@ std::string Resistor::label() const
     return m_label;
 }
 
-void Resistor::resistors_values()
+void Resistor::resistor_data()
 {
+    const int KILOHM = 1000;
+
     std::cout << "ID: " << m_id << std::endl;
     std::cout << "LABEL: " << m_label << std::endl;
-    std::cout << "Rc[KΩ]: " << m_rc / 1000 << std::endl;
-    std::cout << "Re[KΩ]: " << m_re / 1000 << std::endl;
-    std::cout << "Rbc[KΩ]: " << m_rbc / 1000 << std::endl;
-    std::cout << "Rbe[KΩ]: " << m_rbe / 1000 << std::endl;
-    std::cout << "RL[KΩ]: " << m_rl / 1000 << std::endl;
+    std::cout << "Rc[KΩ]: " << m_rc / KILOHM << std::endl;
+    std::cout << "Re[KΩ]: " << m_re / KILOHM << std::endl;
+    std::cout << "Rbc[KΩ]: " << m_rbc / KILOHM << std::endl;
+    std::cout << "Rbe[KΩ]: " << m_rbe / KILOHM << std::endl;
+    std::cout << "RL[KΩ]: " << m_rl / KILOHM << std::endl;
 }

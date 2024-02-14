@@ -3,13 +3,6 @@
 
 int Capacitor::m_capacitor_id = 0;
 
-Capacitor::Capacitor(float cc, float cb, const std::string &label) : m_label(label), m_id(m_capacitor_id++)
-{
-    m_cc = cc;
-    m_cb = cb;
-    m_ce = 0;
-}
-
 Capacitor::Capacitor(float cc, float cb, float ce, const std::string& label) : m_label(label), m_id(m_capacitor_id++)
 {
     m_cc = cc;
@@ -17,10 +10,11 @@ Capacitor::Capacitor(float cc, float cb, float ce, const std::string& label) : m
     m_ce = ce;
 };
 
-float Capacitor::calculate_reactance(float capacitance, int frequency_sample)
+float Capacitor::calculate_capacitive_reactance(float capacitance, int frequency_sample)
 {
     /* input: capacitance[uF], frequency_sample[Hz] */
-    capacitance = capacitance / 1000000;
+    int FROM_UF_TO_F = 1000000;
+    capacitance = capacitance / FROM_UF_TO_F;
     return 1 / (2 * M_PI * capacitance * frequency_sample);
 }
 
@@ -29,22 +23,22 @@ std::string Capacitor::label() const
     return m_label;
 }
 
-float Capacitor::collector_capacitor() const
+float Capacitor::collector_capacitance() const
 {
     return m_cc;
 }
 
-float Capacitor::base_capacitor() const
+float Capacitor::base_capacitance() const
 {
     return m_cb;
 }
 
-float Capacitor::emitter_capacitor() const
+float Capacitor::emitter_capacitance() const
 {
     return m_ce;
 }
 
-void Capacitor::capacitors_values()
+void Capacitor::capacitor_data()
 {
     std::cout << "ID: " << m_id << std::endl;
     std::cout << "LABEL: " << m_label << std::endl;

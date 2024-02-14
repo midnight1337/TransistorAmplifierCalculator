@@ -1,0 +1,74 @@
+# Transistor Amplifier Calculator
+
+
+Functional Requirements
+
+1. Calculate data for different types of transistor amplifiers
+	a. analyse different type of circuits and implements formulas
+
+2. Deploy a simple website
+	a. -
+
+3. Deploy a nice looking website
+    a. Play with CSS or smth
+
+
+# User Stories
+
+DONE
+User Story: As a User, I want to calculate data for Common Emitter known as Treble Booster
+1. Calculate data for common emitter
+	- Calculate data with given parameters
+	- Prevent from giving bad/undefined parameters
+
+User Story: As a User, I want to calculate data for Common Emitter with Collector Feedback known as Big Muff
+2. Calculate data for collector feedback
+	- Calculate data with given parameters
+	- Prevent from giving bad/undefined parameters
+
+User Story: As a User, I want to calculate data for Emitter Follower known as Buffer
+3. Calculate data for a emitter follower
+	- Calculate data with given parameters
+	- Prevent from giving bad/undefined parameters
+
+User Story: As a User, I want to see the data
+3. Output data
+	- Start with render in console
+	- Create plot with Q Point
+	- Create plot with frequency dependent data
+
+
+# Engineering Stories
+
+Engineering Story: As an Engineer, I want to see unit tests
+1. Implement Unit tests
+	- Use Google Test, start with common_emitter.cpp file
+
+DONE
+Engineering Story: As an Engineer, I want to make given methods inherited
+2. Unify convert_data and show_data in Circuit
+    - Make it common for Derived classes
+
+DONE
+Engineering Story: As an Engineer, I want to implement source resistance for Collector Feedback (and maybe for the rest)
+3. Add source resistance seen by circuit at the input
+    - Expand Resistor class and Constructor
+
+DONE
+Engineering Story: As an Engineer, I want to store frequency dependent data, so it can be plotted
+4. Store samples in collection so it can be passed to a Plot interface
+    - Create vector for storing data
+
+DONE
+Engineering Story: As an Engineer, I want to calculate resistors in parallel without passing array pointer and its size
+5. Store resistances in dynamically allocated array
+    - Use vector instead of array
+
+DONE
+Engineering Story: As an Engineer, I want to all dynamically allocated objects become smart pointers for safety reason
+6. Change raw pointers into smart pointers
+    - Use unique_pointer and make_unique
+
+Engineering Story: As an Engineer, I want to implement Common Emitter Collector Feedback amplifier
+7. Do math
+    - as above

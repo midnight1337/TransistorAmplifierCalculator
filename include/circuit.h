@@ -87,9 +87,9 @@ void Circuit<TransistorType>::frequency_analysis(int frequency_start, int freque
         m_voltage_gain_samples[frequency_sample] = voltage_gain_sample;
     }
     // Access samples from hash map
-//    for (auto x : m_voltage_gain_samples)
+//    for (auto sample : m_voltage_gain_samples)
 //    {
-//        std::cout << x.first << " " << x.second << std::endl;
+//        std::cout << sample.first << "[Hz] : " << sample.second << "[dB]" << std::endl;
 //    }
 }
 

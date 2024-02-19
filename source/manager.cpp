@@ -29,7 +29,8 @@ void Manager::run()
     new_capacitor(1, 0, 1, "BigMuff");
 
 //    breadboard_common_emitter_circuit("OC44", "Rangemaster", "Rangemaster", VCC);
-    breadboard_collector_feedback_circuit("BC239", "BigMuff", "BigMuff", VCC);
+//    breadboard_collector_feedback_circuit("BC239", "BigMuff", "BigMuff", VCC);
+    breadboard_filter(100, 15.92, 100, 15.92);
 }
 
 void Manager::breadboard_common_emitter_circuit(const std::string& transistor_model, const std::string& resistor_label, const std::string& capacitor_label, float vcc)
@@ -55,6 +56,14 @@ void Manager::breadboard_collector_feedback_circuit(const std::string& transisto
 
     m_collector_feedback->test();
     m_collector_feedback->show_data();
+}
+
+void Manager::breadboard_filter(float first_order_resistance, float first_order_capacitance, float second_order_resistance, float second_order_capacitance)
+{
+    m_filter = std::make_unique<Filter>(Filter(first_order_resistance, first_order_capacitance, second_order_resistance, second_order_capacitance));
+
+    m_filter->frequency_analysis();
+    m_filter->show_data();
 }
 
 void Manager::new_transistor(const std::string& model, const std::string& type, float hfe, float vbe)

@@ -4,6 +4,7 @@ Manager::Manager()
 {
     m_common_emitter = nullptr;
     m_collector_feedback = nullptr;
+    m_filter = nullptr;
 }
 
 Manager::~Manager()
@@ -30,7 +31,7 @@ void Manager::run()
 
 //    breadboard_common_emitter_circuit("OC44", "Rangemaster", "Rangemaster", VCC);
 //    breadboard_collector_feedback_circuit("BC239", "BigMuff", "BigMuff", VCC);
-    breadboard_filter(100, 15.92, 100, 15.92);
+    breadboard_filter(100.0, 15.92, 100.0, 15.92);
 }
 
 void Manager::breadboard_common_emitter_circuit(const std::string& transistor_model, const std::string& resistor_label, const std::string& capacitor_label, float vcc)
@@ -60,10 +61,11 @@ void Manager::breadboard_collector_feedback_circuit(const std::string& transisto
 
 void Manager::breadboard_filter(float first_order_resistance, float first_order_capacitance, float second_order_resistance, float second_order_capacitance)
 {
-    m_filter = std::make_unique<Filter>(Filter(first_order_resistance, first_order_capacitance, second_order_resistance, second_order_capacitance));
-
-    m_filter->frequency_analysis();
-    m_filter->show_data();
+//    m_filter = std::make_unique<Filter>(Filter(first_order_resistance, first_order_capacitance, second_order_resistance, second_order_capacitance));
+//
+////    m_filter->frequency_analysis_of_first_order_high_pass_filter();
+//    m_filter->frequency_analysis_of_first_order_low_pass_filter();
+//    m_filter->show_data();
 }
 
 void Manager::new_transistor(const std::string& model, const std::string& type, float hfe, float vbe)

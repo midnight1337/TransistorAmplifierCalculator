@@ -15,4 +15,4 @@ add_executable(TransistorAmplifierCalculator source/main.cpp
         source/circuit.cpp
         source/common_emitter.cpp
         include/resistor.h
-        source/resistor.cpp include/capacitor.h source/capacitor.cpp include/filter.h source/filter.cpp include/collector_feedback.h source/collector_feedback.cpp)
+        source/resistor.cpp include/capacitor.h source/capacitor.cpp include/filter.h source/filter.cpp include/collector_feedback.h source/collector_feedback.cpp source/high_pass.cpp include/high_pass.h source/low_pass.cpp include/low_pass.h source/band_pass.cpp include/band_pass.h)

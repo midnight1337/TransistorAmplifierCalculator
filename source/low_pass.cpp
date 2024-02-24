@@ -1,29 +1,15 @@
 #include "../include/low_pass.h"
 
 
-LowPass::LowPass(float first_order_resistance, float first_order_capacitance) : Filter(first_order_resistance, first_order_capacitance)
+LowPass::LowPass(float resistance, float capacitance) : Filter(resistance, capacitance)
 {}
 
-LowPass::LowPass(float first_order_resistance, float first_order_capacitance, float second_order_resistance, float second_order_capacitance) :
-        Filter(first_order_resistance, first_order_capacitance, second_order_resistance, second_order_capacitance)
-{}
-
-void LowPass::calculate_first_order_filter()
+float LowPass::calculate_magnitude(int frequency_sample)
 {
+    float capacitor_reactance = Capacitor::calculate_capacitive_reactance(m_capacitance, frequency_sample);
 
-}
+    float magnitude = capacitor_reactance / sqrt((m_resistance * m_resistance) + (capacitor_reactance * capacitor_reactance));
+    float magnitude_db = 20 * log10(magnitude);
 
-void LowPass::calculate_second_order_filter()
-{
-
-}
-
-void LowPass::calculate_magnitude_of_first_order_filter()
-{
-
-}
-
-void LowPass::calculate_magnitude_of_second_order_filter()
-{
-
+    return magnitude_db;
 }

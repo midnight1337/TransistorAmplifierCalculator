@@ -88,3 +88,7 @@ Engineering Story: As an Engineer, I want to implement Common Emitter Collector 
 Engineering Story: As an Engineer, I want to calculate data for different types of filtering
 8. Do formulas for filters: HP, LP, first and second order, active and passive
     - Store magnitude in a hash map
+
+Engineering Story: As an Engineer, I want to connect mysql database with a application
+9. Store all data in database
+    - Use mysql

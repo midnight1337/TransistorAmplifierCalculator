@@ -105,19 +105,19 @@ void CommonEmitter::calculate_voltage_gain()
 
 void CommonEmitter::calculate_cutoff_frequency_of_input_stage()
 {
-    m_fc_in = Filter::calculate_first_order_filter_cutoff_frequency(m_z_in, m_capacitor->base_capacitance());
+    m_fc_in = Filter::calculate_cutoff_frequency(m_z_in, m_capacitor->base_capacitance());
 }
 
 void CommonEmitter::calculate_cutoff_frequency_of_output_stage()
 {
-    m_fc_out = Filter::calculate_first_order_filter_cutoff_frequency(m_resistor->load_resistance(),
-                                                                     m_capacitor->collector_capacitance());
+    m_fc_out = Filter::calculate_cutoff_frequency(m_resistor->load_resistance(),
+                                                  m_capacitor->collector_capacitance());
 }
 
 void CommonEmitter::calculate_cutoff_frequency_of_emitter_stage()
 {
-    m_fc_emitter = Filter::calculate_first_order_filter_cutoff_frequency(m_resistor->emitter_resistance(),
-                                                                         m_capacitor->emitter_capacitance());
+    m_fc_emitter = Filter::calculate_cutoff_frequency(m_resistor->emitter_resistance(),
+                                                      m_capacitor->emitter_capacitance());
 }
 
 float CommonEmitter::calculate_input_impedance(int frequency_sample)
@@ -235,7 +235,7 @@ float CommonEmitter::calculate_loss_of_input_stage(int frequency_sample)
     float loss_ratio = impedance / (base_reactance + impedance);
 
     /* b) second approach - (This produces the same output as loss calculated on first approach) */
-//    float cutoff_frequency = Filter::calculate_first_order_filter_cutoff_frequency(impedance, m_capacitor->base_capacitance());
+//    float cutoff_frequency = Filter::calculate_cutoff_frequency(impedance, m_capacitor->base_capacitance());
 //    float loss_numerator = 2 * M_PI * frequency_sample;
 //    float loss_denominator = sqrt(pow((2 * M_PI * frequency_sample), 2) + pow((2 * M_PI * cutoff_frequency), 2));
 //    float loss = loss_numerator / loss_denominator;

@@ -29,9 +29,11 @@ void Manager::run()
     new_resistor(10, 0.1, 470, 47, 101, 39, 1000, "BigMuff");
     new_capacitor(1, 0, 1, "BigMuff");
 
-//    breadboard_common_emitter_circuit("OC44", "Rangemaster", "Rangemaster", VCC);
+    breadboard_common_emitter_circuit("OC44", "Rangemaster", "Rangemaster", VCC);
 //    breadboard_collector_feedback_circuit("BC239", "BigMuff", "BigMuff", VCC);
-    breadboard_filter(100.0, 15.92, 100.0, 15.92);
+//    breadboard_low_pass_filter(100.0, 15.92);
+//    breadboard_high_pass_filter(100.0, 15.92);
+//    breadboard_band_pass_filter(200.0, 15.92, 100.0, 15.92);
 }
 
 void Manager::breadboard_common_emitter_circuit(const std::string& transistor_model, const std::string& resistor_label, const std::string& capacitor_label, float vcc)
@@ -59,13 +61,31 @@ void Manager::breadboard_collector_feedback_circuit(const std::string& transisto
     m_collector_feedback->show_data();
 }
 
-void Manager::breadboard_filter(float first_order_resistance, float first_order_capacitance, float second_order_resistance, float second_order_capacitance)
+void Manager::breadboard_low_pass_filter(float resistance, float capacitance)
 {
-//    m_filter = std::make_unique<Filter>(Filter(first_order_resistance, first_order_capacitance, second_order_resistance, second_order_capacitance));
-//
-////    m_filter->frequency_analysis_of_first_order_high_pass_filter();
-//    m_filter->frequency_analysis_of_first_order_low_pass_filter();
-//    m_filter->show_data();
+    m_filter = std::make_unique<LowPass>(LowPass(resistance, capacitance));
+
+    m_filter->filter_analysis();
+    m_filter->show_filter_data();
+    m_filter->show_magnitude();
+}
+
+void Manager::breadboard_high_pass_filter(float resistance, float capacitance)
+{
+    m_filter = std::make_unique<HighPass>(HighPass(resistance, capacitance));
+
+    m_filter->filter_analysis();
+    m_filter->show_filter_data();
+    m_filter->show_magnitude();
+}
+
+void Manager::breadboard_band_pass_filter(float first_order_resistance, float first_order_capacitance, float second_order_resistance, float second_order_capacitance)
+{
+    m_filter = std::make_unique<BandPass>(BandPass(first_order_resistance, first_order_capacitance, second_order_resistance, second_order_capacitance));
+
+    m_filter->filter_analysis();
+    m_filter->show_filter_data();
+    m_filter->show_magnitude();
 }
 
 void Manager::new_transistor(const std::string& model, const std::string& type, float hfe, float vbe)

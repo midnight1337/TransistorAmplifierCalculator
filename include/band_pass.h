@@ -12,8 +12,10 @@ private:
     HighPass m_high_pass;
     LowPass m_low_pass;
     float m_centre_frequency;
+    float m_bandwidth;
 
     void calculate_centre_frequency();
+    void calculate_bandwidth();
 
 public:
     BandPass(float first_order_resistance, float first_order_capacitance, float second_order_resistance, float second_order_capacitance);

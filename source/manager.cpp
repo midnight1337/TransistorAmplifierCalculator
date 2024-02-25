@@ -15,11 +15,12 @@ Manager::~Manager()
 
     m_common_emitter.reset();
     m_collector_feedback.reset();
+    m_filter.reset();
 }
 
 void Manager::run()
 {
-    float VCC = 9;
+    float VCC = 9.0;
 
     new_transistor("OC44", "NPN", 100, 0.3);
     new_resistor(10, 3.9, 470, 68, 1000, 1000, "Rangemaster");
@@ -31,9 +32,9 @@ void Manager::run()
 
     breadboard_common_emitter_circuit("OC44", "Rangemaster", "Rangemaster", VCC);
 //    breadboard_collector_feedback_circuit("BC239", "BigMuff", "BigMuff", VCC);
-//    breadboard_low_pass_filter(100.0, 15.92);
-//    breadboard_high_pass_filter(100.0, 15.92);
-//    breadboard_band_pass_filter(200.0, 15.92, 100.0, 15.92);
+//    breadboard_low_pass_filter(100.0, 16.0);
+//    breadboard_high_pass_filter(100.0, 16.0);
+//    breadboard_band_pass_filter(200.0, 16.0, 100.0, 16.0);
 }
 
 void Manager::breadboard_common_emitter_circuit(const std::string& transistor_model, const std::string& resistor_label, const std::string& capacitor_label, float vcc)
@@ -98,7 +99,6 @@ void Manager::new_transistor(const std::string& model, const std::string& type, 
     }
     else
     {
-        // If the loop completes without recognizing a transistor type, throw an exception
         throw std::runtime_error("Transistor type not known: " + type);
     }
 

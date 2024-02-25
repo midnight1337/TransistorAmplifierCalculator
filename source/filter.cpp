@@ -5,6 +5,7 @@ Filter::Filter(float resistance, float capacitance)
 {
     m_resistance = resistance;
     m_capacitance = capacitance;
+    m_cutoff_frequency = 0;
 }
 
 float Filter::calculate_cutoff_frequency(float resistance, float capacitance)

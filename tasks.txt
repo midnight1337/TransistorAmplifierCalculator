@@ -1,16 +1,21 @@
 # Transistor Amplifier Calculator
 
 
+
 Functional Requirements
 
 1. Calculate data for different types of transistor amplifiers
 	a. analyse different type of circuits and implements formulas
 
-2. Deploy a simple website
+2.Calculate data for a different types of filters
+    a. filter analysis
+
+3. Deploy a simple website
 	a. -
 
-3. Deploy a nice looking website
+4. Deploy a nice looking website
     a. Play with CSS or smth
+
 
 
 # User Stories
@@ -27,15 +32,21 @@ User Story: As a User, I want to calculate data for Common Emitter with Collecto
 	- Prevent from giving bad/undefined parameters
 
 User Story: As a User, I want to calculate data for Emitter Follower known as Buffer
-3. Calculate data for a emitter follower
+3. Calculate data for emitter follower
 	- Calculate data with given parameters
 	- Prevent from giving bad/undefined parameters
 
 User Story: As a User, I want to see the data
-3. Output data
+4. Output data
 	- Start with render in console
 	- Create plot with Q Point
 	- Create plot with frequency dependent data
+
+User Story: As a User, I want to calculate data for filters
+5. Calculate data for different type of filters (HP, LP, active, passive, first or second order)
+	- Start with render in console
+	- Create plot with frequency dependent data
+
 
 
 # Engineering Stories
@@ -69,6 +80,15 @@ Engineering Story: As an Engineer, I want to all dynamically allocated objects b
 6. Change raw pointers into smart pointers
     - Use unique_pointer and make_unique
 
+SUSPENDED
 Engineering Story: As an Engineer, I want to implement Common Emitter Collector Feedback amplifier
 7. Do math
     - as above
+
+Engineering Story: As an Engineer, I want to calculate data for different types of filtering
+8. Do formulas for filters: HP, LP, first and second order, active and passive
+    - Store magnitude in a hash map
+
+Engineering Story: As an Engineer, I want to connect mysql database with a application
+9. Store all data in database
+    - Use mysql

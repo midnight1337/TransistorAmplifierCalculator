@@ -105,17 +105,19 @@ void CommonEmitter::calculate_voltage_gain()
 
 void CommonEmitter::calculate_cutoff_frequency_of_input_stage()
 {
-    m_fc_in = Filter::high_pass(m_z_in, m_capacitor->base_capacitance());
+    m_fc_in = Filter::calculate_cutoff_frequency(m_z_in, m_capacitor->base_capacitance());
 }
 
 void CommonEmitter::calculate_cutoff_frequency_of_output_stage()
 {
-    m_fc_out = Filter::high_pass(m_resistor->load_resistance(), m_capacitor->collector_capacitance());
+    m_fc_out = Filter::calculate_cutoff_frequency(m_resistor->load_resistance(),
+                                                  m_capacitor->collector_capacitance());
 }
 
 void CommonEmitter::calculate_cutoff_frequency_of_emitter_stage()
 {
-    m_fc_emitter = Filter::high_pass(m_resistor->emitter_resistance(), m_capacitor->emitter_capacitance());
+    m_fc_emitter = Filter::calculate_cutoff_frequency(m_resistor->emitter_resistance(),
+                                                      m_capacitor->emitter_capacitance());
 }
 
 float CommonEmitter::calculate_input_impedance(int frequency_sample)
@@ -226,15 +228,14 @@ float CommonEmitter::calculate_loss_of_input_stage(int frequency_sample)
     std::vector<float> resistors = {m_resistor->base_emitter_resistance(), m_resistor->base_collector_resistance(), transistor_impedance};
     float impedance = Resistor::calculate_resistance_in_parallel(resistors);
 
-    /* 3.Calculate loss */
+    /* 3.Calculate loss: Av = Vout / Vin = R / sqrt2(R^2 + Xc^2) = R/Z */
     /* a) first approach */
-    float base_reactance = Capacitor::calculate_capacitive_reactance(m_capacitor->base_capacitance(),
-                                                                       frequency_sample);
+    float base_reactance = Capacitor::calculate_capacitive_reactance(m_capacitor->base_capacitance(), frequency_sample);
     float loss = impedance / sqrt((impedance * impedance) + (base_reactance * base_reactance));
     float loss_ratio = impedance / (base_reactance + impedance);
 
     /* b) second approach - (This produces the same output as loss calculated on first approach) */
-//    float cutoff_frequency = Filter::high_pass(impedance, m_capacitor->base_capacitance());
+//    float cutoff_frequency = Filter::calculate_cutoff_frequency(impedance, m_capacitor->base_capacitance());
 //    float loss_numerator = 2 * M_PI * frequency_sample;
 //    float loss_denominator = sqrt(pow((2 * M_PI * frequency_sample), 2) + pow((2 * M_PI * cutoff_frequency), 2));
 //    float loss = loss_numerator / loss_denominator;
